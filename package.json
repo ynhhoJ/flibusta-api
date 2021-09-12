@@ -1,0 +1,34 @@
+{
+  "name": "flibusta-api",
+  "version": "0.0.2",
+  "main": "index.js",
+  "author": "ynhhoJ",
+  "license": "MIT",
+  "packageManager": "yarn@3.0.2",
+  "dependencies": {
+    "axios": "^0.21.4",
+    "node-html-parser": "^4.1.4"
+  },
+  "devDependencies": {
+    "@types/node": "^16.9.1",
+    "@typescript-eslint/eslint-plugin": "^4.31.0",
+    "@typescript-eslint/parser": "^4.31.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-airbnb-typescript": "^14.0.0",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-sonarjs": "^0.10.0",
+    "eslint-plugin-unicorn": "^36.0.0",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
+  },
+  "keywords": [
+    "book",
+    "flibusta",
+    "api",
+    "unofficial",
+    "search"
+  ]
+}
