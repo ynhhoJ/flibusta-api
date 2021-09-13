@@ -84,7 +84,10 @@ class FlibustaApi {
     return authors.map((item) => {
       const [authorInformation, ...booksOrTranslations] = item.childNodes;
       const booksAsString = FlibustaApi.getBooksOrTranslations(booksOrTranslations, FlibustaApi.getAuthorBooksRegExp);
-      const translationsAsString = FlibustaApi.getBooksOrTranslations(booksOrTranslations, FlibustaApi.getAuthorTranslationsRegExp);
+      const translationsAsString = FlibustaApi.getBooksOrTranslations(
+        booksOrTranslations,
+        FlibustaApi.getAuthorTranslationsRegExp,
+      );
       const books = Number.parseInt(booksAsString, 10);
       const translations = Number.parseInt(translationsAsString, 10);
 
