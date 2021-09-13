@@ -7,7 +7,7 @@ class FlibustaApi {
   public static flibustaOirigin = 'http://flibusta.is/';
 
   private static axiosInstance = axios.create({
-    baseURL: this.flibustaOirigin,
+    baseURL: FlibustaApi.flibustaOirigin,
   });
 
   private static getAuthorBooksRegExp = /\d книг/g;
@@ -18,7 +18,7 @@ class FlibustaApi {
 
   private static removePagerElement(): void {
     // NOTE: Remove List of items which contains page numbers
-    const pagerElement = this.parsedHTMLData.querySelectorAll('div.item-list .pager');
+    const pagerElement = FlibustaApi.parsedHTMLData.querySelectorAll('div.item-list .pager');
 
     pagerElement.forEach((pager) => {
       pager.remove();
@@ -74,22 +74,22 @@ class FlibustaApi {
   }
 
   public static async searchAuthors(author: string, limit = 50): Promise<Array<AuthorBooks>> {
-    const searchResult = await this.axiosInstance.get(`booksearch?ask=${encodeURIComponent(author)}&cha=on`);
-    this.parsedHTMLData = parse(searchResult.data).querySelector('#main');
+    const searchResult = await FlibustaApi.axiosInstance.get(`booksearch?ask=${encodeURIComponent(author)}&cha=on`);
+    FlibustaApi.parsedHTMLData = parse(searchResult.data).querySelector('#main');
 
-    this.removePagerElement();
+    FlibustaApi.removePagerElement();
 
-    const authors = this.parsedHTMLData.querySelectorAll('ul li');
+    const authors = FlibustaApi.parsedHTMLData.querySelectorAll('ul li');
 
     return authors.map((item) => {
       const [authorInformation, ...booksOrTranslations] = item.childNodes;
-      const booksAsString = this.getBooksOrTranslations(booksOrTranslations, this.getAuthorBooksRegExp);
-      const translationsAsString = this.getBooksOrTranslations(booksOrTranslations, this.getAuthorTranslationsRegExp);
+      const booksAsString = FlibustaApi.getBooksOrTranslations(booksOrTranslations, FlibustaApi.getAuthorBooksRegExp);
+      const translationsAsString = FlibustaApi.getBooksOrTranslations(booksOrTranslations, FlibustaApi.getAuthorTranslationsRegExp);
       const books = Number.parseInt(booksAsString, 10);
       const translations = Number.parseInt(translationsAsString, 10);
 
       return {
-        ...this.getInformationOfBookOrAuthor(authorInformation),
+        ...FlibustaApi.getInformationOfBookOrAuthor(authorInformation),
         books,
         translations,
       };
@@ -97,19 +97,19 @@ class FlibustaApi {
   }
 
   public static async searchBooksByName(name: string, limit = 50): Promise<Array<SearchBooksByNameResult>> {
-    const searchResult = await this.axiosInstance.get(`booksearch?ask=${encodeURIComponent(name)}&chb=on`);
-    this.parsedHTMLData = parse(searchResult.data).querySelector('#main');
+    const searchResult = await FlibustaApi.axiosInstance.get(`booksearch?ask=${encodeURIComponent(name)}&chb=on`);
+    FlibustaApi.parsedHTMLData = parse(searchResult.data).querySelector('#main');
 
-    this.removePagerElement();
+    FlibustaApi.removePagerElement();
 
-    const books = this.parsedHTMLData.querySelectorAll('ul li');
+    const books = FlibustaApi.parsedHTMLData.querySelectorAll('ul li');
 
     return books.map((book) => {
       const [resultBookName, /* divider */, ...resultBookAuthors] = book.childNodes;
 
       return {
-        book: this.getInformationOfBookOrAuthor(resultBookName),
-        authors: this.getBookAuthors(resultBookAuthors),
+        book: FlibustaApi.getInformationOfBookOrAuthor(resultBookName),
+        authors: FlibustaApi.getBookAuthors(resultBookAuthors),
       };
     }).slice(0, limit);
   }
