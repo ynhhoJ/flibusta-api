@@ -28,7 +28,8 @@ class FlibustaApi {
   private static getInformationOfBookOrAuthor(node: Node): Author;
   private static getInformationOfBookOrAuthor(node: Node): Book {
     const nodeAsHTMl = node as HTMLElement;
-    const id = StringUtils.getNumbersFromString(nodeAsHTMl.attrs.href);
+    const idAsString = StringUtils.getNumbersFromString(nodeAsHTMl.attrs.href);
+    const id = Number.parseInt(idAsString, 10);
     const name = node.childNodes.map((string) => string.text).join('');
 
     return {
@@ -47,7 +48,8 @@ class FlibustaApi {
         return;
       }
 
-      const id = StringUtils.getNumbersFromString(authorAsHTML.attrs.href);
+      const idAsString = StringUtils.getNumbersFromString(authorAsHTML.attrs.href);
+      const id = Number.parseInt(idAsString, 10);
 
       result.push({
         id,
@@ -81,8 +83,10 @@ class FlibustaApi {
 
     return authors.map((item) => {
       const [authorInformation, ...booksOrTranslations] = item.childNodes;
-      const books = this.getBooksOrTranslations(booksOrTranslations, this.getAuthorBooksRegExp);
-      const translations = this.getBooksOrTranslations(booksOrTranslations, this.getAuthorTranslationsRegExp);
+      const booksAsString = this.getBooksOrTranslations(booksOrTranslations, this.getAuthorBooksRegExp);
+      const translationsAsString = this.getBooksOrTranslations(booksOrTranslations, this.getAuthorTranslationsRegExp);
+      const books = Number.parseInt(booksAsString, 10);
+      const translations = Number.parseInt(translationsAsString, 10);
 
       return {
         ...this.getInformationOfBookOrAuthor(authorInformation),
