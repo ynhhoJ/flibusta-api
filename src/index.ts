@@ -113,6 +113,28 @@ class FlibustaApi {
       };
     }).slice(0, limit);
   }
+
+  public static async searchBooksBySeries(name: string, limit = 50): Promise<Array<BookSeries>> {
+    const searchResult = await FlibustaApi.axiosInstance.get(`booksearch?ask=${encodeURIComponent(name)}&chs=on`);
+    FlibustaApi.parsedHTMLData = parse(searchResult.data).querySelector('#main');
+
+    FlibustaApi.removePagerElement();
+
+    const booksHTMLElement = FlibustaApi.parsedHTMLData.querySelectorAll('ul li');
+
+    return booksHTMLElement.map((series) => {
+      const [authorInformation, ...booksOrTranslations] = series.childNodes;
+      const booksAsString = FlibustaApi.getBooksOrTranslations(booksOrTranslations, FlibustaApi.getAuthorBooksRegExp);
+      const books = Number.parseInt(booksAsString, 10);
+
+      return {
+        ...FlibustaApi.getInformationOfBookOrAuthor(authorInformation),
+        books,
+      };
+    }).slice(0, limit);
+  }
 }
 
-export const { searchBooksByName, searchAuthors } = FlibustaApi;
+export const {
+  searchBooksByName, searchBooksBySeries, searchAuthors,
+} = FlibustaApi;
