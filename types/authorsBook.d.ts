@@ -1,4 +1,4 @@
 interface AuthorBooks extends Author {
-  books: string;
-  translations: string;
+  books: number;
+  translations: number;
 }
