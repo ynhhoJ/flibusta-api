@@ -12,7 +12,7 @@ class FlibustaApi {
 
   private static getAuthorBooksRegExp = /\d книг/g;
 
-  private static getAuthorTranslationsRegExp = /\d перевода|перевод/g;
+  private static getAuthorTranslationsRegExp = /\d перевода|\d перевод/g;
 
   private static parsedHTMLData: HTMLElement;
 
