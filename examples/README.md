@@ -1,10 +1,10 @@
-###Search book by name
+### Search book by name
 Commands:
 ```
 yarn ts-node ./examples/searchBooksByName.ts [book name] [items to show]
 ```
 
-##Examples
+## Examples
 ```
 yarn ts-node ./examples/searchBooksByName.ts Шерлок 2
 ```
