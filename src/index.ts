@@ -24,7 +24,8 @@ class FlibustaApi {
 
   private static removePagerElement(): void {
     const { parsedHTMLData } = FlibustaApi;
-    // NOTE: Remove List of items which contains page numbers
+    // NOTE: Remove List of items which contains page numbers, because they contains <ul> & <li> and can create
+    //       problems on parsing items from Flibusta
     const pagerElement = parsedHTMLData.querySelectorAll('div.item-list .pager');
 
     pagerElement.forEach((pager) => {
@@ -72,6 +73,7 @@ class FlibustaApi {
     const stringMatch = StringUtils.getStringMatches(booksOrTranslationsAsString, regexRule);
 
     if (isNil(stringMatch)) {
+      // TODO: Remove "magic"/"unknown" string
       return '0';
     }
 
