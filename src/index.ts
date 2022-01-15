@@ -1,9 +1,13 @@
 import axios from 'axios';
 import { HTMLElement, Node, parse } from 'node-html-parser';
-import { isNil } from 'lodash';
 import StringUtils from './utils/string';
-import Lang from './utils/lang';
+import { isNil } from './utils/lang';
 import Errors from './errors';
+import Author from '../types/authors';
+import Book from '../types/book';
+import AuthorBooks from '../types/authorsBook';
+import { SearchBooksByNameResult } from '../types/searchBooksByNameResult';
+import BookSeries from '../types/bookSeries';
 
 class FlibustaApi {
   public static flibustaOirigin = 'http://flibusta.is/';
@@ -67,7 +71,7 @@ class FlibustaApi {
     const booksOrTranslationsAsString = booksOrTranslations.toString();
     const stringMatch = StringUtils.getStringMatches(booksOrTranslationsAsString, regexRule);
 
-    if (Lang.isNil(stringMatch)) {
+    if (isNil(stringMatch)) {
       return '0';
     }
 
@@ -80,8 +84,6 @@ class FlibustaApi {
     const searchResult = await FlibustaApi.axiosInstance.get(`booksearch?ask=${encodeURIComponent(author)}&cha=on`);
     const parsedHTMLFromSearchResult = parse(searchResult.data).querySelector('#main');
 
-    FlibustaApi.removePagerElement();
-
     if (isNil(parsedHTMLFromSearchResult)) {
       const { searchAuthors } = FlibustaApi;
       const currentFunctionName = searchAuthors.name;
@@ -90,6 +92,7 @@ class FlibustaApi {
     }
 
     FlibustaApi.parsedHTMLData = parsedHTMLFromSearchResult;
+    FlibustaApi.removePagerElement();
     const authors = parsedHTMLFromSearchResult.querySelectorAll('ul li');
 
     return authors.map((item) => {
@@ -114,8 +117,6 @@ class FlibustaApi {
     const searchResult = await FlibustaApi.axiosInstance.get(`booksearch?ask=${encodeURIComponent(name)}&chb=on`);
     const parsedHTMLFromSearchResult = parse(searchResult.data).querySelector('#main');
 
-    FlibustaApi.removePagerElement();
-
     if (isNil(parsedHTMLFromSearchResult)) {
       const { searchBooksByName } = FlibustaApi;
       const currentFunctionName = searchBooksByName.name;
@@ -124,6 +125,7 @@ class FlibustaApi {
     }
 
     FlibustaApi.parsedHTMLData = parsedHTMLFromSearchResult;
+    FlibustaApi.removePagerElement();
     const books = parsedHTMLFromSearchResult.querySelectorAll('ul li');
 
     return books.map((book) => {
@@ -140,8 +142,6 @@ class FlibustaApi {
     const searchResult = await FlibustaApi.axiosInstance.get(`booksearch?ask=${encodeURIComponent(name)}&chs=on`);
     const parsedHTMLFromSearchResult = parse(searchResult.data).querySelector('#main');
 
-    FlibustaApi.removePagerElement();
-
     if (isNil(parsedHTMLFromSearchResult)) {
       const { searchBooksBySeries } = FlibustaApi;
       const currentFunctionName = searchBooksBySeries.name;
@@ -150,6 +150,7 @@ class FlibustaApi {
     }
 
     FlibustaApi.parsedHTMLData = parsedHTMLFromSearchResult;
+    FlibustaApi.removePagerElement();
     const booksHTMLElement = parsedHTMLFromSearchResult.querySelectorAll('ul li');
 
     return booksHTMLElement.map((series) => {

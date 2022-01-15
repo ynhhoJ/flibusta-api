@@ -1,3 +1,5 @@
+import { Nullable } from '../../types/generals';
+
 class String {
   public static getNumbersFromString(string: string): string {
     return string.replace(/\D/g, '');
