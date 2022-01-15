@@ -1,1 +1,1 @@
-type BookFormat = 'fb2' | 'epub' | 'mobi';
+export type BookFormat = 'fb2' | 'epub' | 'mobi';

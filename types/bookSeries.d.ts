@@ -1,3 +1,3 @@
-interface BookSeries extends Book {
+export default interface BookSeries extends Book {
   books: number;
 }
