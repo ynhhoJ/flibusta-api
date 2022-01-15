@@ -79,8 +79,6 @@ class FlibustaApi {
     const searchResult = await FlibustaApi.axiosInstance.get(`booksearch?ask=${encodeURIComponent(author)}&cha=on`);
     const parsedHTMLFromSearchResult = parse(searchResult.data).querySelector('#main');
 
-    FlibustaApi.removePagerElement();
-
     if (isNil(parsedHTMLFromSearchResult)) {
       const { searchAuthors } = FlibustaApi;
       const currentFunctionName = searchAuthors.name;
@@ -89,6 +87,7 @@ class FlibustaApi {
     }
 
     FlibustaApi.parsedHTMLData = parsedHTMLFromSearchResult;
+    FlibustaApi.removePagerElement();
     const authors = parsedHTMLFromSearchResult.querySelectorAll('ul li');
 
     return authors.map((item) => {
@@ -113,8 +112,6 @@ class FlibustaApi {
     const searchResult = await FlibustaApi.axiosInstance.get(`booksearch?ask=${encodeURIComponent(name)}&chb=on`);
     const parsedHTMLFromSearchResult = parse(searchResult.data).querySelector('#main');
 
-    FlibustaApi.removePagerElement();
-
     if (isNil(parsedHTMLFromSearchResult)) {
       const { searchBooksByName } = FlibustaApi;
       const currentFunctionName = searchBooksByName.name;
@@ -123,6 +120,7 @@ class FlibustaApi {
     }
 
     FlibustaApi.parsedHTMLData = parsedHTMLFromSearchResult;
+    FlibustaApi.removePagerElement();
     const books = parsedHTMLFromSearchResult.querySelectorAll('ul li');
 
     return books.map((book) => {
@@ -139,8 +137,6 @@ class FlibustaApi {
     const searchResult = await FlibustaApi.axiosInstance.get(`booksearch?ask=${encodeURIComponent(name)}&chs=on`);
     const parsedHTMLFromSearchResult = parse(searchResult.data).querySelector('#main');
 
-    FlibustaApi.removePagerElement();
-
     if (isNil(parsedHTMLFromSearchResult)) {
       const { searchBooksBySeries } = FlibustaApi;
       const currentFunctionName = searchBooksBySeries.name;
@@ -149,6 +145,7 @@ class FlibustaApi {
     }
 
     FlibustaApi.parsedHTMLData = parsedHTMLFromSearchResult;
+    FlibustaApi.removePagerElement();
     const booksHTMLElement = parsedHTMLFromSearchResult.querySelectorAll('ul li');
 
     return booksHTMLElement.map((series) => {
