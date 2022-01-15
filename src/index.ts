@@ -93,7 +93,7 @@ class FlibustaApi {
 
     FlibustaApi.parsedHTMLData = parsedHTMLFromSearchResult;
     FlibustaApi.removePagerElement();
-    const authors = parsedHTMLFromSearchResult.querySelectorAll('ul li');
+    const authors = parsedHTMLFromSearchResult.querySelectorAll('ul li').slice(0, limit);
 
     return authors.map((item) => {
       const [authorInformation, ...booksOrTranslations] = item.childNodes;
@@ -110,7 +110,7 @@ class FlibustaApi {
         books,
         translations,
       };
-    }).slice(0, limit);
+    });
   }
 
   public static async searchBooksByName(name: string, limit = 50): Promise<Array<SearchBooksByNameResult>> {
@@ -126,7 +126,7 @@ class FlibustaApi {
 
     FlibustaApi.parsedHTMLData = parsedHTMLFromSearchResult;
     FlibustaApi.removePagerElement();
-    const books = parsedHTMLFromSearchResult.querySelectorAll('ul li');
+    const books = parsedHTMLFromSearchResult.querySelectorAll('ul li').slice(0, limit);
 
     return books.map((book) => {
       const [resultBookName, /* divider */, ...resultBookAuthors] = book.childNodes;
@@ -135,7 +135,7 @@ class FlibustaApi {
         book: FlibustaApi.getInformationOfBookOrAuthor(resultBookName),
         authors: FlibustaApi.getBookAuthors(resultBookAuthors),
       };
-    }).slice(0, limit);
+    });
   }
 
   public static async searchBooksBySeries(name: string, limit = 50): Promise<Array<BookSeries>> {
@@ -151,7 +151,7 @@ class FlibustaApi {
 
     FlibustaApi.parsedHTMLData = parsedHTMLFromSearchResult;
     FlibustaApi.removePagerElement();
-    const booksHTMLElement = parsedHTMLFromSearchResult.querySelectorAll('ul li');
+    const booksHTMLElement = parsedHTMLFromSearchResult.querySelectorAll('ul li').slice(0, limit);
 
     return booksHTMLElement.map((series) => {
       const [authorInformation, ...booksOrTranslations] = series.childNodes;
@@ -162,7 +162,7 @@ class FlibustaApi {
         ...FlibustaApi.getInformationOfBookOrAuthor(authorInformation),
         books,
       };
-    }).slice(0, limit);
+    });
   }
 }
 
