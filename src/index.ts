@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { HTMLElement, Node, parse } from 'node-html-parser';
+import { isNil } from 'lodash';
 import StringUtils from './utils/string';
 import Lang from './utils/lang';
+import Errors from './errors';
 
 class FlibustaApi {
   public static flibustaOirigin = 'http://flibusta.is/';
@@ -17,8 +19,9 @@ class FlibustaApi {
   private static parsedHTMLData: HTMLElement;
 
   private static removePagerElement(): void {
+    const { parsedHTMLData } = FlibustaApi;
     // NOTE: Remove List of items which contains page numbers
-    const pagerElement = FlibustaApi.parsedHTMLData.querySelectorAll('div.item-list .pager');
+    const pagerElement = parsedHTMLData.querySelectorAll('div.item-list .pager');
 
     pagerElement.forEach((pager) => {
       pager.remove();
@@ -75,11 +78,19 @@ class FlibustaApi {
 
   public static async searchAuthors(author: string, limit = 50): Promise<Array<AuthorBooks>> {
     const searchResult = await FlibustaApi.axiosInstance.get(`booksearch?ask=${encodeURIComponent(author)}&cha=on`);
-    FlibustaApi.parsedHTMLData = parse(searchResult.data).querySelector('#main');
+    const parsedHTMLFromSearchResult = parse(searchResult.data).querySelector('#main');
 
     FlibustaApi.removePagerElement();
 
-    const authors = FlibustaApi.parsedHTMLData.querySelectorAll('ul li');
+    if (isNil(parsedHTMLFromSearchResult)) {
+      const { searchAuthors } = FlibustaApi;
+      const currentFunctionName = searchAuthors.name;
+
+      throw new Error(`[${currentFunctionName}] ${Errors.PARSED_HTML_DATA_IS_NULL}`);
+    }
+
+    FlibustaApi.parsedHTMLData = parsedHTMLFromSearchResult;
+    const authors = parsedHTMLFromSearchResult.querySelectorAll('ul li');
 
     return authors.map((item) => {
       const [authorInformation, ...booksOrTranslations] = item.childNodes;
@@ -101,11 +112,19 @@ class FlibustaApi {
 
   public static async searchBooksByName(name: string, limit = 50): Promise<Array<SearchBooksByNameResult>> {
     const searchResult = await FlibustaApi.axiosInstance.get(`booksearch?ask=${encodeURIComponent(name)}&chb=on`);
-    FlibustaApi.parsedHTMLData = parse(searchResult.data).querySelector('#main');
+    const parsedHTMLFromSearchResult = parse(searchResult.data).querySelector('#main');
 
     FlibustaApi.removePagerElement();
 
-    const books = FlibustaApi.parsedHTMLData.querySelectorAll('ul li');
+    if (isNil(parsedHTMLFromSearchResult)) {
+      const { searchBooksByName } = FlibustaApi;
+      const currentFunctionName = searchBooksByName.name;
+
+      throw new Error(`[${currentFunctionName}] ${Errors.PARSED_HTML_DATA_IS_NULL}`);
+    }
+
+    FlibustaApi.parsedHTMLData = parsedHTMLFromSearchResult;
+    const books = parsedHTMLFromSearchResult.querySelectorAll('ul li');
 
     return books.map((book) => {
       const [resultBookName, /* divider */, ...resultBookAuthors] = book.childNodes;
@@ -119,11 +138,19 @@ class FlibustaApi {
 
   public static async searchBooksBySeries(name: string, limit = 50): Promise<Array<BookSeries>> {
     const searchResult = await FlibustaApi.axiosInstance.get(`booksearch?ask=${encodeURIComponent(name)}&chs=on`);
-    FlibustaApi.parsedHTMLData = parse(searchResult.data).querySelector('#main');
+    const parsedHTMLFromSearchResult = parse(searchResult.data).querySelector('#main');
 
     FlibustaApi.removePagerElement();
 
-    const booksHTMLElement = FlibustaApi.parsedHTMLData.querySelectorAll('ul li');
+    if (isNil(parsedHTMLFromSearchResult)) {
+      const { searchBooksBySeries } = FlibustaApi;
+      const currentFunctionName = searchBooksBySeries.name;
+
+      throw new Error(`[${currentFunctionName}] ${Errors.PARSED_HTML_DATA_IS_NULL}`);
+    }
+
+    FlibustaApi.parsedHTMLData = parsedHTMLFromSearchResult;
+    const booksHTMLElement = parsedHTMLFromSearchResult.querySelectorAll('ul li');
 
     return booksHTMLElement.map((series) => {
       const [authorInformation, ...booksOrTranslations] = series.childNodes;
