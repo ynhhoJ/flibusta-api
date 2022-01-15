@@ -5,9 +5,15 @@ import { isNil } from './utils/lang';
 import Errors from './errors';
 import Author from '../types/authors';
 import Book from '../types/book';
-import AuthorBooks from '../types/authorsBook';
+import { SearchAuthorsResult } from '../types/searchAuthorsResult';
 import { SearchBooksByNameResult } from '../types/searchBooksByNameResult';
-import BookSeries from '../types/bookSeries';
+import { SearchBooksBySeriesResult } from '../types/searchBooksBySeriesResult';
+
+type PagesInformation = {
+  totalPages: number,
+  hasPreviousPage: boolean,
+  hasNextPage: boolean,
+};
 
 class FlibustaApi {
   public static flibustaOirigin = 'http://flibusta.is/';
@@ -22,15 +28,73 @@ class FlibustaApi {
 
   private static parsedHTMLData: HTMLElement;
 
-  private static removePagerElement(): void {
+  private static getPagesCountedAndRemoveElement(): PagesInformation {
     const { parsedHTMLData } = FlibustaApi;
     // NOTE: Remove List of items which contains page numbers, because they contains <ul> & <li> and can create
     //       problems on parsing items from Flibusta
     const pagerElement = parsedHTMLData.querySelectorAll('div.item-list .pager');
 
-    pagerElement.forEach((pager) => {
-      pager.remove();
+    // TODO: Use isEmpty from lodash
+    if (pagerElement.length === 0) {
+      return {
+        totalPages: 1,
+        hasNextPage: false,
+        hasPreviousPage: false,
+      };
+    }
+
+    // NOTE: In flibusta's search is 2 pager elements. We remove second, to get correct values on parsing pages number
+    pagerElement[1].remove();
+
+    const firstPagerElement = pagerElement[0];
+    const firstPagerElementChildNodes = pagerElement[0].childNodes;
+    const count = firstPagerElementChildNodes.filter((element) => {
+      const htmlElement = element as HTMLElement;
+
+      return htmlElement.attrs?.class.includes('pager-current') || htmlElement.attrs?.class.includes('pager-item');
     });
+    const hasNextPage = firstPagerElementChildNodes.some((element) => {
+      const htmlElement = element as HTMLElement;
+
+      return htmlElement.attrs?.class === 'pager-next';
+    });
+    const hasPreviousPage = firstPagerElementChildNodes.some((element) => {
+      const htmlElement = element as HTMLElement;
+
+      return htmlElement.attrs?.class === 'pager-previous';
+    });
+
+    firstPagerElement.remove();
+
+    return {
+      totalPages: count.length,
+      hasNextPage,
+      hasPreviousPage,
+    };
+  }
+
+  private static getTotalItemsCount(): number {
+    const { parsedHTMLData } = FlibustaApi;
+    const elementWithInformation = parsedHTMLData.querySelector('h3');
+    const informationText = elementWithInformation?.text;
+
+    if (isNil(informationText)) {
+      return 0;
+    }
+
+    const number = informationText.split('из');
+
+    if (number.length === 1) {
+      return 0;
+    }
+
+    const matchedResult = number[1].match(/\d+/);
+
+    if (isNil(matchedResult)) {
+      return 0;
+    }
+
+    return Number.parseInt(matchedResult[0], 10);
   }
 
   private static getInformationOfBookOrAuthor(node: Node): Author;
@@ -82,8 +146,10 @@ class FlibustaApi {
     return StringUtils.getNumbersFromString(firstStringMatch);
   }
 
-  public static async searchAuthors(author: string, limit = 50): Promise<Array<AuthorBooks>> {
-    const searchResult = await FlibustaApi.axiosInstance.get(`booksearch?ask=${encodeURIComponent(author)}&cha=on`);
+  public static async searchAuthors(author: string, limit = 50, page = 0): Promise<SearchAuthorsResult> {
+    const searchResult = await FlibustaApi.axiosInstance.get(
+      `booksearch?page=${page}&ask=${encodeURIComponent(author)}&cha=on`,
+    );
     const parsedHTMLFromSearchResult = parse(searchResult.data).querySelector('#main');
 
     if (isNil(parsedHTMLFromSearchResult)) {
@@ -94,10 +160,10 @@ class FlibustaApi {
     }
 
     FlibustaApi.parsedHTMLData = parsedHTMLFromSearchResult;
-    FlibustaApi.removePagerElement();
+    const totalPages = FlibustaApi.getPagesCountedAndRemoveElement();
     const authors = parsedHTMLFromSearchResult.querySelectorAll('ul li').slice(0, limit);
 
-    return authors.map((item) => {
+    const items = authors.map((item) => {
       const [authorInformation, ...booksOrTranslations] = item.childNodes;
       const booksAsString = FlibustaApi.getBooksOrTranslations(booksOrTranslations, FlibustaApi.getAuthorBooksRegExp);
       const translationsAsString = FlibustaApi.getBooksOrTranslations(
@@ -113,10 +179,20 @@ class FlibustaApi {
         translations,
       };
     });
+    const totalCountItems = FlibustaApi.getTotalItemsCount();
+
+    return {
+      items,
+      currentPage: page,
+      ...totalPages,
+      totalCountItems,
+    };
   }
 
-  public static async searchBooksByName(name: string, limit = 50): Promise<Array<SearchBooksByNameResult>> {
-    const searchResult = await FlibustaApi.axiosInstance.get(`booksearch?ask=${encodeURIComponent(name)}&chb=on`);
+  public static async searchBooksByName(name: string, limit = 50, page = 0): Promise<SearchBooksByNameResult> {
+    const searchResult = await FlibustaApi.axiosInstance.get(
+      `booksearch?page=${page}&ask=${encodeURIComponent(name)}&chb=on`,
+    );
     const parsedHTMLFromSearchResult = parse(searchResult.data).querySelector('#main');
 
     if (isNil(parsedHTMLFromSearchResult)) {
@@ -127,10 +203,11 @@ class FlibustaApi {
     }
 
     FlibustaApi.parsedHTMLData = parsedHTMLFromSearchResult;
-    FlibustaApi.removePagerElement();
+
+    const pagesInformation = FlibustaApi.getPagesCountedAndRemoveElement();
     const books = parsedHTMLFromSearchResult.querySelectorAll('ul li').slice(0, limit);
 
-    return books.map((book) => {
+    const items = books.map((book) => {
       const [resultBookName, /* divider */, ...resultBookAuthors] = book.childNodes;
 
       return {
@@ -138,10 +215,20 @@ class FlibustaApi {
         authors: FlibustaApi.getBookAuthors(resultBookAuthors),
       };
     });
+    const totalCountItems = FlibustaApi.getTotalItemsCount();
+
+    return {
+      items,
+      currentPage: page,
+      totalCountItems,
+      ...pagesInformation,
+    };
   }
 
-  public static async searchBooksBySeries(name: string, limit = 50): Promise<Array<BookSeries>> {
-    const searchResult = await FlibustaApi.axiosInstance.get(`booksearch?ask=${encodeURIComponent(name)}&chs=on`);
+  public static async searchBooksBySeries(name: string, limit = 50, page = 0): Promise<SearchBooksBySeriesResult> {
+    const searchResult = await FlibustaApi.axiosInstance.get(
+      `booksearch?page=${page}&ask=${encodeURIComponent(name)}&chs=on`,
+    );
     const parsedHTMLFromSearchResult = parse(searchResult.data).querySelector('#main');
 
     if (isNil(parsedHTMLFromSearchResult)) {
@@ -152,10 +239,11 @@ class FlibustaApi {
     }
 
     FlibustaApi.parsedHTMLData = parsedHTMLFromSearchResult;
-    FlibustaApi.removePagerElement();
+
+    const pagesInformation = FlibustaApi.getPagesCountedAndRemoveElement();
     const booksHTMLElement = parsedHTMLFromSearchResult.querySelectorAll('ul li').slice(0, limit);
 
-    return booksHTMLElement.map((series) => {
+    const items = booksHTMLElement.map((series) => {
       const [authorInformation, ...booksOrTranslations] = series.childNodes;
       const booksAsString = FlibustaApi.getBooksOrTranslations(booksOrTranslations, FlibustaApi.getAuthorBooksRegExp);
       const books = Number.parseInt(booksAsString, 10);
@@ -165,6 +253,14 @@ class FlibustaApi {
         books,
       };
     });
+    const totalCountItems = FlibustaApi.getTotalItemsCount();
+
+    return {
+      items,
+      currentPage: page,
+      totalCountItems,
+      ...pagesInformation,
+    };
   }
 }
 
