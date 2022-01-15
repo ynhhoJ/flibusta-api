@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { HTMLElement, Node, parse } from 'node-html-parser';
-import { isNil } from 'lodash';
 import StringUtils from './utils/string';
-import Lang from './utils/lang';
+import { isNil } from './utils/lang';
 import Errors from './errors';
 
 class FlibustaApi {
@@ -67,7 +66,7 @@ class FlibustaApi {
     const booksOrTranslationsAsString = booksOrTranslations.toString();
     const stringMatch = StringUtils.getStringMatches(booksOrTranslationsAsString, regexRule);
 
-    if (Lang.isNil(stringMatch)) {
+    if (isNil(stringMatch)) {
       return '0';
     }
 
