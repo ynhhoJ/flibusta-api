@@ -3,6 +3,11 @@ import { HTMLElement, Node, parse } from 'node-html-parser';
 import StringUtils from './utils/string';
 import { isNil } from './utils/lang';
 import Errors from './errors';
+import Author from '../types/authors';
+import Book from '../types/book';
+import AuthorBooks from '../types/authorsBook';
+import { SearchBooksByNameResult } from '../types/searchBooksByNameResult';
+import BookSeries from '../types/bookSeries';
 
 class FlibustaApi {
   public static flibustaOirigin = 'http://flibusta.is/';
