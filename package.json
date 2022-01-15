@@ -7,9 +7,11 @@
   "packageManager": "yarn@3.1.1",
   "dependencies": {
     "axios": "^0.24.0",
+    "lodash": "^4.17.21",
     "node-html-parser": "^5.2.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.178",
     "@types/node": "^17.0.8",
     "@typescript-eslint/eslint-plugin": "^5.9.1",
     "@typescript-eslint/parser": "^5.9.1",
