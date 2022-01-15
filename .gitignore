@@ -1,2 +1,5 @@
+.idea
 .yarn
+node_modules
+.yarnrc
 *.lock

@@ -50,7 +50,8 @@
       "ImportDeclaration": "never",
       "ExportDeclaration": { "multiline": true, "minProperties": 3 }
     }],
-    "import/no-unresolved": "error"
+    "import/no-unresolved": "error",
+    "linebreak-style": "off"
   },
   "settings": {
     "import/parsers": {
