@@ -5,7 +5,7 @@ import { searchAuthors } from '../src';
   const [/* original value */, /* path to the file */, author, itemsLimit, pageNumber] = process.argv;
 
   const itemsLimitAsInt = Number.parseInt(itemsLimit, 10);
-  const pageNumberAsInt = Number.parseInt(pageNumber, 10) ?? 0;
+  const pageNumberAsInt = Number.parseInt(pageNumber ?? 0, 10);
 
   const searchBooksByNameResult = await searchAuthors(author, itemsLimitAsInt, pageNumberAsInt);
 
