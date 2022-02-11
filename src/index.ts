@@ -7,7 +7,7 @@ import Book from '../types/book';
 import { SearchAuthorsResult } from '../types/searchAuthorsResult';
 import { SearchBooksByNameResult } from '../types/searchBooksByNameResult';
 import { SearchBooksBySeriesResult } from '../types/searchBooksBySeriesResult';
-import { isNil } from 'lodash';
+import { isEmpty, isNil } from 'lodash';
 
 type PagesInformation = {
   totalPages: number,
@@ -34,8 +34,7 @@ class FlibustaApi {
     //       problems on parsing items from Flibusta
     const pagerElement = parsedHTMLData.querySelectorAll('div.item-list .pager');
 
-    // TODO: Use isEmpty from lodash
-    if (pagerElement.length === 0) {
+    if (isEmpty(pagerElement)) {
       return {
         totalPages: 1,
         hasNextPage: false,
