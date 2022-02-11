@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { HTMLElement, Node, parse } from 'node-html-parser';
 import StringUtils from './utils/string';
-import { isNil } from './utils/lang';
 import Errors from './errors';
 import Author from '../types/authors';
 import Book from '../types/book';
 import { SearchAuthorsResult } from '../types/searchAuthorsResult';
 import { SearchBooksByNameResult } from '../types/searchBooksByNameResult';
 import { SearchBooksBySeriesResult } from '../types/searchBooksBySeriesResult';
+import { isNil } from 'lodash';
 
 type PagesInformation = {
   totalPages: number,
