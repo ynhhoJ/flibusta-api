@@ -8,12 +8,7 @@ import { SearchAuthorsResult } from '../types/searchAuthorsResult';
 import { SearchBooksByNameResult } from '../types/searchBooksByNameResult';
 import { SearchBooksBySeriesResult } from '../types/searchBooksBySeriesResult';
 import { isEmpty, isNil } from 'lodash';
-
-type PagesInformation = {
-  totalPages: number,
-  hasPreviousPage: boolean,
-  hasNextPage: boolean,
-};
+import { PagesInformation } from '../types/pagesInformation';
 
 class FlibustaApi {
   public static flibustaOirigin = 'http://flibusta.is/';
