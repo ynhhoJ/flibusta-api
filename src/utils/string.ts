@@ -12,6 +12,10 @@ class String {
   public static getStringMatches(string: string, regexRule: RegExp): Nullable<Array<string>> {
     return string.match(regexRule);
   }
+
+  public static concatenateString(arrayWithString: Array<string>): string {
+    return arrayWithString.join('');
+  }
 }
 
 export default String;
