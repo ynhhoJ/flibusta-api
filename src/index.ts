@@ -4,11 +4,11 @@ import GetBooksByName from './api/getBooksByName';
 import GetBooksBySeries from './api/getBooksBySeries';
 
 class FlibustaAPI {
-  private readonly GetBooksByName: GetBooksByName;
+  private readonly apiGetBooksByName: GetBooksByName;
 
-  private readonly GetBooksBySeries: GetBooksBySeries;
+  private readonly apiGetBooksBySeries: GetBooksBySeries;
 
-  private readonly GetAuthors: GetAuthors;
+  private readonly apiGetAuthors: GetAuthors;
 
   constructor(flibustaBaseURL: string, axiosConfig?: AxiosRequestConfig) {
     const axiosInstance = axios.create({
@@ -16,21 +16,21 @@ class FlibustaAPI {
       ...axiosConfig,
     });
 
-    this.GetBooksByName = new GetBooksByName(axiosInstance);
-    this.GetBooksBySeries = new GetBooksBySeries(axiosInstance);
-    this.GetAuthors = new GetAuthors(axiosInstance);
+    this.apiGetBooksByName = new GetBooksByName(axiosInstance);
+    this.apiGetBooksBySeries = new GetBooksBySeries(axiosInstance);
+    this.apiGetAuthors = new GetAuthors(axiosInstance);
   }
 
   getBooksByName(name: string, page = 0, limit = 50) {
-    return this.GetBooksByName.getBooksByName(name, page, limit);
+    return this.apiGetBooksByName.getBooksByName(name, page, limit);
   }
 
   getBooksBySeries(name: string, page = 0, limit = 50) {
-    return this.GetBooksBySeries.getBooksBySeries(name, page, limit);
+    return this.apiGetBooksBySeries.getBooksBySeries(name, page, limit);
   }
 
   getAuthors(name: string, page = 0, limit = 50) {
-    return this.GetAuthors.getAuthors(name, page, limit);
+    return this.apiGetAuthors.getAuthors(name, page, limit);
   }
 }
 
