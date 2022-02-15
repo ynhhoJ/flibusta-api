@@ -1,15 +1,19 @@
 import AxiosController from './axiosController';
 import { PagesInformation } from '../types/pagesInformation';
 import { HTMLElement, parse, Node } from 'node-html-parser';
-import { isEmpty, isNil } from 'lodash';
+import { isEmpty, isNil, parseInt } from 'lodash';
 import Author from '../types/authors';
 import Book from '../types/book';
 import StringUtils from './utils/string';
 
 abstract class FlibustaAPIHelper {
+  private static NIL_RESULT = -1;
+
   public axiosController: AxiosController;
 
   public getAuthorBooksRegExp = /\d+ книг/g;
+
+  public matchOnlyNumbersRegExp = /\d+/g;
 
   protected constructor(axiosController: AxiosController) {
     this.axiosController = axiosController;
@@ -66,12 +70,13 @@ abstract class FlibustaAPIHelper {
       });
   }
 
-  public getInformationOfBookOrAuthor(node: Node): Author;
-  public getInformationOfBookOrAuthor(node: Node): Book {
-    const nodeAsHTMl = node as HTMLElement;
-    const idAsString = StringUtils.getNumbersFromString(nodeAsHTMl.attrs.href);
-    const id = Number.parseInt(idAsString, 10);
-    const name = node.childNodes.map((string) => string.text).join('');
+  public getInformationOfBookOrAuthor(node: HTMLElement): Author;
+  public getInformationOfBookOrAuthor(node: HTMLElement): Book {
+    const rawIdAsString = StringUtils.getNumbersFromString(node.attrs.href);
+    const id = Number.parseInt(rawIdAsString, 10);
+
+    const rawName = node.childNodes.map((string) => string.text);
+    const name = StringUtils.concatenateString(rawName);
 
     return {
       id,
@@ -79,43 +84,41 @@ abstract class FlibustaAPIHelper {
     };
   }
 
-  public getBooksOrTranslations(booksOrTranslations: Array<Node>, regexRule: RegExp): string {
+  public getBooksOrTranslations(booksOrTranslations: Array<Node>, regexRule: RegExp): number {
     const booksOrTranslationsAsString = booksOrTranslations.toString();
     const stringMatch = StringUtils.getStringMatches(booksOrTranslationsAsString, regexRule);
 
     if (isNil(stringMatch)) {
-      // TODO: Remove "magic"/"unknown" string
-      return '0';
+      return FlibustaAPIHelper.NIL_RESULT;
     }
 
-    const firstStringMatch = stringMatch[0];
-    console.log('firstStringMatch', stringMatch, firstStringMatch, StringUtils.getNumbersFromString(firstStringMatch));
+    // NOTE:       584 книг
+    const [booksItemsCountAsString] = stringMatch;
+    const booksCountOnlyNumbers = StringUtils.getNumbersFromString(booksItemsCountAsString);
 
-    return StringUtils.getNumbersFromString(firstStringMatch);
+    return parseInt(booksCountOnlyNumbers, 10);
   }
 
   public getTotalItemsCount(parsedHTMLData: HTMLElement): number {
-    const elementWithInformation = parsedHTMLData.querySelector('h3');
-    const informationText = elementWithInformation?.text;
+    const rawFoundedHTMLInformation = parsedHTMLData.querySelector('h3');
+    const foundedInformationText = rawFoundedHTMLInformation?.text;
 
-    if (isNil(informationText)) {
-      return 0;
+    if (isNil(foundedInformationText)) {
+      return FlibustaAPIHelper.NIL_RESULT;
     }
 
-    const number = informationText.split('из');
+    // NOTE: Flibusta search has on header information about founded result: "Найденные книги (1 - 50 из 228):"
+    //       We should split string by "из" and get second number which contains all founded items count
+    const [/* itemsShowedForCurrentPage */, foundedTotalItemsCount] = foundedInformationText.split('из');
+    const totalItemsCountNumberMatch = foundedTotalItemsCount.match(this.matchOnlyNumbersRegExp);
 
-    if (number.length === 1) {
-      return 0;
+    if (isNil(totalItemsCountNumberMatch)) {
+      return FlibustaAPIHelper.NIL_RESULT;
     }
 
-    // TODO: REWRITE
-    const matchedResult = number[1].match(/\d+/);
+    const [totalItemsCountNumberAsString] = totalItemsCountNumberMatch;
 
-    if (isNil(matchedResult)) {
-      return 0;
-    }
-
-    return Number.parseInt(matchedResult[0], 10);
+    return Number.parseInt(totalItemsCountNumberAsString, 10);
   }
 }
 

@@ -2,9 +2,12 @@ import AxiosController from '../axiosController';
 import FlibustaAPIHelper from '../flibustaApiHelper';
 import { HTMLElement } from 'node-html-parser';
 import { isEmpty, isNil } from 'lodash';
-import { SearchBooksBySeriesResult } from '../../types/searchBooksBySeriesResult';
+import { SearchAuthorsResult } from '../../types/searchAuthorsResult';
+import AuthorBooks from '../../types/authorsBook';
 
 class GetAuthors extends FlibustaAPIHelper {
+  private static getAuthorTranslationsRegExp = /\d (перевода|перевод)/g;
+
   public axiosController: AxiosController;
 
   constructor(axiosController: AxiosController) {
@@ -23,7 +26,7 @@ class GetAuthors extends FlibustaAPIHelper {
     return this.getFlibustaHTMLPage(url);
   }
 
-  public async getAuthors(name: string, page = 0, limit = 50): Promise<undefined | SearchBooksBySeriesResult> {
+  public async getAuthors(name: string, page = 0, limit = 50): Promise<undefined | SearchAuthorsResult> {
     const authorsListResult = await this.fetchAuthorsFromFlibusta(name, page);
 
     if (isNil(authorsListResult)) {
@@ -39,14 +42,20 @@ class GetAuthors extends FlibustaAPIHelper {
 
     const booksSeries = authorsListResult.querySelectorAll('ul li').slice(0, limit);
 
-    const items = booksSeries.map((series) => {
+    const items: Array<AuthorBooks> = booksSeries.map((series) => {
       const [authorInformation, ...booksOrTranslations] = series.childNodes;
-      const booksAsString = this.getBooksOrTranslations(booksOrTranslations, this.getAuthorBooksRegExp);
-      const books = Number.parseInt(booksAsString, 10);
+      const books = this.getBooksOrTranslations(booksOrTranslations, this.getAuthorBooksRegExp);
+      const authorInformationAsHTML = authorInformation as HTMLElement;
+      const author = this.getInformationOfBookOrAuthor(authorInformationAsHTML);
+      const translations = this.getBooksOrTranslations(
+        booksOrTranslations,
+        GetAuthors.getAuthorTranslationsRegExp,
+      );
 
       return {
-        ...this.getInformationOfBookOrAuthor(authorInformation),
+        ...author,
         books,
+        translations,
       };
     });
 

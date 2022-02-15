@@ -5,6 +5,8 @@ import { isEmpty, isNil } from 'lodash';
 import { SearchBooksByNameResult } from '../../types/searchBooksByNameResult';
 import Author from '../../types/authors';
 import StringUtils from '../utils/string';
+import { BooksByName } from '../../types/booksByName';
+import Book from '../../types/book';
 
 class GetBooksByName extends FlibustaAPIHelper {
   public axiosController: AxiosController;
@@ -63,12 +65,15 @@ class GetBooksByName extends FlibustaAPIHelper {
 
     const books = booksListResult.querySelectorAll('ul li').slice(0, limit);
 
-    const items = books.map((book) => {
-      const [resultBookName, /* divider */, ...resultBookAuthors] = book.childNodes;
+    const items: Array<BooksByName> = books.map((bookHTMLElement) => {
+      const [resultBookName, /* divider */, ...resultBookAuthors] = bookHTMLElement.childNodes;
+      const resultBookNameAsHTML = resultBookName as HTMLElement;
+      const book: Book = this.getInformationOfBookOrAuthor(resultBookNameAsHTML);
+      const authors: Array<Author> = this.getBookAuthors(resultBookAuthors);
 
       return {
-        book: this.getInformationOfBookOrAuthor(resultBookName),
-        authors: this.getBookAuthors(resultBookAuthors),
+        book,
+        authors,
       };
     });
     const booksSeriesListResultAsHTML = booksListResult as HTMLElement;
