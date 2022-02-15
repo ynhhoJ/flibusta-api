@@ -1,20 +1,20 @@
-import AxiosController from '../axiosController';
-import FlibustaAPIHelper from '../flibustaApiHelper';
-import { HTMLElement, Node } from 'node-html-parser';
-import { isEmpty, isNil } from 'lodash';
-import { SearchBooksByNameResult } from '../../types/searchBooksByNameResult';
 import Author from '../../types/authors';
+import Book from '../../types/book';
+import FlibustaAPIHelper from '../flibustaApiHelper';
 import StringUtils from '../utils/string';
 import { BooksByName } from '../../types/booksByName';
-import Book from '../../types/book';
+import { HTMLElement, Node } from 'node-html-parser';
+import { SearchBooksByNameResult } from '../../types/searchBooksByNameResult';
+import { isEmpty, isNil } from 'lodash';
+import { AxiosInstance } from 'axios';
 
 class GetBooksByName extends FlibustaAPIHelper {
-  public axiosController: AxiosController;
+  public axiosInstance: AxiosInstance;
 
-  constructor(axiosController: AxiosController) {
-    super(axiosController);
+  constructor(axiosInstance: AxiosInstance) {
+    super(axiosInstance);
 
-    this.axiosController = axiosController;
+    this.axiosInstance = axiosInstance;
   }
 
   private static generateGetBooksByNameURL(name: string, page: number) {

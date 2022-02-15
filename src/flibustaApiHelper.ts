@@ -1,22 +1,22 @@
-import AxiosController from './axiosController';
-import { PagesInformation } from '../types/pagesInformation';
-import { HTMLElement, parse, Node } from 'node-html-parser';
-import { isEmpty, isNil, parseInt } from 'lodash';
 import Author from '../types/authors';
 import Book from '../types/book';
 import StringUtils from './utils/string';
+import { AxiosInstance } from 'axios';
+import { HTMLElement, parse, Node } from 'node-html-parser';
+import { PagesInformation } from '../types/pagesInformation';
+import { isEmpty, isNil, parseInt } from 'lodash';
 
 abstract class FlibustaAPIHelper {
   private static NIL_RESULT = -1;
 
-  public axiosController: AxiosController;
+  public axiosInstance: AxiosInstance;
 
   public getAuthorBooksRegExp = /\d+ книг/g;
 
   public matchOnlyNumbersRegExp = /\d+/g;
 
-  protected constructor(axiosController: AxiosController) {
-    this.axiosController = axiosController;
+  protected constructor(axiosController: AxiosInstance) {
+    this.axiosInstance = axiosController;
   }
 
   public getCurrentPageInformation(parsedHTMLData: HTMLElement): PagesInformation {
@@ -59,8 +59,8 @@ abstract class FlibustaAPIHelper {
     };
   }
 
-  public getFlibustaHTMLPage(url: string): Promise<HTMLElement | null> {
-    return this.axiosController.instance().get<string>(url)
+  public async getFlibustaHTMLPage(url: string): Promise<HTMLElement | null> {
+    return this.axiosInstance.get<string>(url)
       .then((response) => parse(response.data).querySelector('#main'))
       .catch((error) => {
         console.log(`[API] ERROR: ${error}`);
