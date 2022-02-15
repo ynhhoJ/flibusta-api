@@ -59,8 +59,7 @@ Gets books by name from Flibusta's site.
     {
       "id": 242,
       "name": "Шерлок Холмс с иллюстрациями",
-      "books": 1,
-      "translations": 0
+      "books": 11
     }
   ],
   "currentPage": 0,
@@ -88,7 +87,8 @@ Gets authors by name from Flibusta's site.
     {
       "id": 6116,
       "name": "Артур Конан Дойль",
-      "books": 584
+      "books": 584,
+      "translations": -1
     }
   ],
   "currentPage": 0,
