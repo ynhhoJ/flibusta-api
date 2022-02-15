@@ -10,7 +10,7 @@ class FlibustaAPI {
 
   private readonly apiGetAuthors: GetAuthors;
 
-  constructor(flibustaBaseURL: string, axiosConfig?: AxiosRequestConfig) {
+  constructor(flibustaBaseURL = 'http://flibusta.is/', axiosConfig?: AxiosRequestConfig) {
     const axiosInstance = axios.create({
       baseURL: flibustaBaseURL,
       ...axiosConfig,
