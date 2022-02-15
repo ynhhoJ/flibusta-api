@@ -2,11 +2,11 @@ import AxiosController from '../axiosController';
 import FlibustaAPIHelper from '../flibustaApiHelper';
 import { HTMLElement } from 'node-html-parser';
 import { isEmpty, isNil } from 'lodash';
-import { SearchAuthorsResult } from '../../types/searchAuthorsResult';
+import { SearchBooksBySeriesResult } from '../../types/searchBooksBySeriesResult';
+import BookSeries from '../../types/bookSeries';
+import Book from '../../types/book';
 
 class GetBooksBySeries extends FlibustaAPIHelper {
-  private static getAuthorTranslationsRegExp = /\d (перевода|перевод)/g;
-
   public axiosController: AxiosController;
 
   constructor(axiosController: AxiosController) {
@@ -25,7 +25,7 @@ class GetBooksBySeries extends FlibustaAPIHelper {
     return this.getFlibustaHTMLPage(url);
   }
 
-  public async getBooksBySeries(name: string, page = 0, limit = 50): Promise<undefined | SearchAuthorsResult> {
+  public async getBooksBySeries(name: string, page = 0, limit = 50): Promise<undefined | SearchBooksBySeriesResult> {
     const booksSeriesListResult = await this.fetchBooksBySeriesFromFlibusta(name, page);
 
     if (isNil(booksSeriesListResult)) {
@@ -41,20 +41,15 @@ class GetBooksBySeries extends FlibustaAPIHelper {
 
     const authors = booksSeriesListResult.querySelectorAll('ul li').slice(0, limit);
 
-    const items = authors.map((item) => {
+    const items: Array<BookSeries> = authors.map((item) => {
       const [authorInformation, ...booksOrTranslations] = item.childNodes;
-      const booksAsString = this.getBooksOrTranslations(booksOrTranslations, this.getAuthorBooksRegExp);
-      const translationsAsString = this.getBooksOrTranslations(
-        booksOrTranslations,
-        GetBooksBySeries.getAuthorTranslationsRegExp,
-      );
-      const books = Number.parseInt(booksAsString, 10);
-      const translations = Number.parseInt(translationsAsString, 10);
+      const books = this.getBooksOrTranslations(booksOrTranslations, this.getAuthorBooksRegExp);
+      const authorInformationAsHTML = authorInformation as HTMLElement;
+      const bookInformation: Book = this.getInformationOfBookOrAuthor(authorInformationAsHTML);
 
       return {
-        ...this.getInformationOfBookOrAuthor(authorInformation),
+        ...bookInformation,
         books,
-        translations,
       };
     });
 

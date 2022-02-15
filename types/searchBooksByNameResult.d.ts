@@ -1,8 +1,7 @@
-import Book from './book';
-import Author from './authors';
+import { BooksByName } from './booksByName';
 
 export type SearchBooksByNameResult = {
-  items: Array<{ book: Book; authors: Array<Author>; }>
+  items: Array<BooksByName>
   currentPage: number;
   totalCountItems: number;
   totalPages: number,
