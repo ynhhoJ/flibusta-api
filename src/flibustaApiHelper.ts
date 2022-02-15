@@ -4,7 +4,7 @@ import StringUtils from './utils/string';
 import { AxiosInstance } from 'axios';
 import { HTMLElement, parse, Node } from 'node-html-parser';
 import { PagesInformation } from '../types/pagesInformation';
-import { isEmpty, isNil, parseInt } from 'lodash';
+import { isEmpty, isNil } from 'lodash';
 
 abstract class FlibustaAPIHelper {
   private static NIL_RESULT = -1;
