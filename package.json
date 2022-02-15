@@ -1,7 +1,6 @@
 {
   "name": "flibusta-api",
   "version": "0.2.0",
-  "main": "index.js",
   "author": "ynhhoJ",
   "license": "MIT",
   "packageManager": "yarn@3.1.1",
