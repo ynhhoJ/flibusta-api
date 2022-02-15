@@ -96,7 +96,7 @@ abstract class FlibustaAPIHelper {
     const [booksItemsCountAsString] = stringMatch;
     const booksCountOnlyNumbers = StringUtils.getNumbersFromString(booksItemsCountAsString);
 
-    return parseInt(booksCountOnlyNumbers, 10);
+    return Number.parseInt(booksCountOnlyNumbers, 10);
   }
 
   public getTotalItemsCount(parsedHTMLData: HTMLElement): number {
