@@ -1,19 +1,19 @@
-import AxiosController from '../axiosController';
-import FlibustaAPIHelper from '../flibustaApiHelper';
-import { HTMLElement } from 'node-html-parser';
-import { isEmpty, isNil } from 'lodash';
-import { SearchAuthorsResult } from '../../types/searchAuthorsResult';
 import AuthorBooks from '../../types/authorsBook';
+import FlibustaAPIHelper from '../flibustaApiHelper';
+import { AxiosInstance } from 'axios';
+import { HTMLElement } from 'node-html-parser';
+import { SearchAuthorsResult } from '../../types/searchAuthorsResult';
+import { isEmpty, isNil } from 'lodash';
 
 class GetAuthors extends FlibustaAPIHelper {
   private static getAuthorTranslationsRegExp = /\d (перевода|перевод)/g;
 
-  public axiosController: AxiosController;
+  public axiosInstance: AxiosInstance;
 
-  constructor(axiosController: AxiosController) {
-    super(axiosController);
+  constructor(axiosInstance: AxiosInstance) {
+    super(axiosInstance);
 
-    this.axiosController = axiosController;
+    this.axiosInstance = axiosInstance;
   }
 
   private static generateGetBooksByNameURL(name: string, page: number) {

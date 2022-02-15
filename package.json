@@ -1,14 +1,13 @@
 {
   "name": "flibusta-api",
-  "version": "0.2.0",
-  "main": "index.js",
+  "version": "0.2.2",
   "author": "ynhhoJ",
   "license": "MIT",
   "packageManager": "yarn@3.1.1",
   "scripts": {
-    "search-book-by-name": "ts-node ./examples/searchBooksByName.ts",
-    "search-authors": "ts-node ./examples/searchAuthors.ts",
-    "search-book-by-series": "ts-node ./examples/searchBooksBySeries.ts"
+    "example-search-book-by-name": "ts-node ./examples/searchBooksByName.ts",
+    "example-search-authors": "ts-node ./examples/searchAuthors.ts",
+    "example-search-book-by-series": "ts-node ./examples/searchBooksBySeries.ts"
   },
   "dependencies": {
     "axios": "^0.26.0",
