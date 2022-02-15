@@ -92,7 +92,6 @@ abstract class FlibustaAPIHelper {
       return FlibustaAPIHelper.NIL_RESULT;
     }
 
-    // NOTE:       584 книг
     const [booksItemsCountAsString] = stringMatch;
     const booksCountOnlyNumbers = StringUtils.getNumbersFromString(booksItemsCountAsString);
 
