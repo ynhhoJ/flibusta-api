@@ -1,16 +1,18 @@
+//
 import AxiosController from './axiosController';
 import { PagesInformation } from '../types/pagesInformation';
 import { HTMLElement, parse, Node } from 'node-html-parser';
 import { isEmpty, isNil, parseInt } from 'lodash';
 import Author from '../types/authors';
 import Book from '../types/book';
-import StringUtils from './utils/string';
+import StringUtils from './utils/string'; //
 
 abstract class FlibustaAPIHelper {
   private static NIL_RESULT = -1;
 
   public axiosController: AxiosController;
 
+  //
   public getAuthorBooksRegExp = /\d+ книг/g;
 
   public matchOnlyNumbersRegExp = /\d+/g;
@@ -25,6 +27,7 @@ abstract class FlibustaAPIHelper {
     const pagerElement = parsedHTMLData.querySelectorAll('div.item-list .pager');
 
     if (isEmpty(pagerElement)) {
+      //
       return {
         totalPages: 1,
         hasNextPage: false,
@@ -60,6 +63,7 @@ abstract class FlibustaAPIHelper {
   }
 
   public getFlibustaHTMLPage(url: string): Promise<HTMLElement | null> {
+    //
     return this.axiosController.instance().get<string>(url)
       .then((response) => parse(response.data).querySelector('#main'))
       .catch((error) => {
@@ -89,14 +93,14 @@ abstract class FlibustaAPIHelper {
     const stringMatch = StringUtils.getStringMatches(booksOrTranslationsAsString, regexRule);
 
     if (isNil(stringMatch)) {
-      return FlibustaAPIHelper.NIL_RESULT;
+      return FlibustaAPIHelper.NIL_RESULT; //
     }
 
     // NOTE:       584 книг
     const [booksItemsCountAsString] = stringMatch;
     const booksCountOnlyNumbers = StringUtils.getNumbersFromString(booksItemsCountAsString);
 
-    return parseInt(booksCountOnlyNumbers, 10);
+    return parseInt(booksCountOnlyNumbers, 10); //
   }
 
   public getTotalItemsCount(parsedHTMLData: HTMLElement): number {

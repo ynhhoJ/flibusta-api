@@ -1,3 +1,4 @@
+//
 import { Nullable } from '../../types/generals';
 
 class String {

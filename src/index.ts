@@ -1,3 +1,4 @@
+//
 import AxiosController from './axiosController';
 import { AxiosRequestConfig } from 'axios';
 import GetBooksByName from './api/getBooksByName';
@@ -5,13 +6,13 @@ import GetBooksBySeries from './api/getBooksBySeries';
 import GetAuthors from './api/getAuthors';
 
 class FlibustaAPI {
-  private readonly GetBooksByName: GetBooksByName;
+  private readonly GetBooksByName: GetBooksByName; //
 
-  private readonly GetBooksBySeries: GetBooksBySeries;
+  private readonly GetBooksBySeries: GetBooksBySeries; //
 
-  private readonly GetAuthors: GetAuthors;
+  private readonly GetAuthors: GetAuthors; //
 
-  constructor(flibustaBaseURL: string, axiosConfig?: AxiosRequestConfig) {
+  constructor(flibustaBaseURL: string, axiosConfig?: AxiosRequestConfig) { //
     const axiosController = new AxiosController({
       baseURL: flibustaBaseURL,
       ...axiosConfig,
@@ -22,6 +23,7 @@ class FlibustaAPI {
     this.GetAuthors = new GetAuthors(axiosController);
   }
 
+  //
   getBooksByName(name: string, page = 0, limit = 50) {
     return this.GetBooksByName.getBooksByName(name, page, limit);
   }

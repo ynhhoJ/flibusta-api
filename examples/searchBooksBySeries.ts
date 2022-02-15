@@ -1,3 +1,4 @@
+//
 import FlibustaAPI from '../src/index';
 
 (async () => {

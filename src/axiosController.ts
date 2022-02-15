@@ -1,3 +1,4 @@
+//
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 class AxiosController {
@@ -11,6 +12,7 @@ class AxiosController {
     return this.axiosInstance;
   }
 
+  //
   public setBaseURL(flibustaBaseURL: string) {
     this.axiosInstance.defaults.baseURL = flibustaBaseURL;
   }
