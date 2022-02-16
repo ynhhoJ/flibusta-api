@@ -1,4 +1,8 @@
 {
+  "ts-node": {
+    "transpileOnly": true,
+    "require": [ "typescript-transform-paths/register" ],
+  },
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
@@ -39,6 +43,9 @@
       "@localTypes/*": ["../types/*"],
       "@src/*": ["./*"],
       "@utils/*": ["./utils/*"],
-    }
+    },
+    "plugins": [
+      { "transform": "typescript-transform-paths" },
+    ]
   },
 }
