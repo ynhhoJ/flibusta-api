@@ -5,10 +5,9 @@ import { AxiosInstance } from 'axios';
 import { HTMLElement, parse, Node } from 'node-html-parser';
 import { PagesInformation } from '../types/pagesInformation';
 import { isEmpty, isNil } from 'lodash';
+import { Nullable } from '../types/generals';
 
 abstract class FlibustaAPIHelper {
-  private static NIL_RESULT = -1;
-
   public axiosInstance: AxiosInstance;
 
   public getAuthorBooksRegExp = /\d+ книг/g;
@@ -84,12 +83,12 @@ abstract class FlibustaAPIHelper {
     };
   }
 
-  public getBooksOrTranslations(booksOrTranslations: Array<Node>, regexRule: RegExp): number {
+  public getBooksOrTranslations(booksOrTranslations: Array<Node>, regexRule: RegExp): Nullable<number> {
     const booksOrTranslationsAsString = booksOrTranslations.toString();
     const stringMatch = StringUtils.getStringMatches(booksOrTranslationsAsString, regexRule);
 
     if (isNil(stringMatch)) {
-      return FlibustaAPIHelper.NIL_RESULT;
+      return undefined;
     }
 
     const [booksItemsCountAsString] = stringMatch;
@@ -98,12 +97,12 @@ abstract class FlibustaAPIHelper {
     return Number.parseInt(booksCountOnlyNumbers, 10);
   }
 
-  public getTotalItemsCount(parsedHTMLData: HTMLElement): number {
+  public getTotalItemsCount(parsedHTMLData: HTMLElement): Nullable<number> {
     const rawFoundedHTMLInformation = parsedHTMLData.querySelector('h3');
     const foundedInformationText = rawFoundedHTMLInformation?.text;
 
     if (isNil(foundedInformationText)) {
-      return FlibustaAPIHelper.NIL_RESULT;
+      return undefined;
     }
 
     // NOTE: Flibusta search has on header information about founded result: "Найденные книги (1 - 50 из 228):"
@@ -112,7 +111,7 @@ abstract class FlibustaAPIHelper {
     const totalItemsCountNumberMatch = foundedTotalItemsCount.match(this.matchOnlyNumbersRegExp);
 
     if (isNil(totalItemsCountNumberMatch)) {
-      return FlibustaAPIHelper.NIL_RESULT;
+      return undefined;
     }
 
     const [totalItemsCountNumberAsString] = totalItemsCountNumberMatch;
