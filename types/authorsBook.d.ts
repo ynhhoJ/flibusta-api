@@ -1,6 +1,7 @@
 import Author from './authors';
+import { Nullable } from './generals';
 
 export default interface AuthorBooks extends Author {
-  books: number;
-  translations: number;
+  books: Nullable<number>;
+  translations: Nullable<number>;
 }
