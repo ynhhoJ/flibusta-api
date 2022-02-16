@@ -4,11 +4,11 @@ import GetBooksByName from './api/getBooksByName';
 import GetBooksBySeries from './api/getBooksBySeries';
 
 class FlibustaAPI {
-  private readonly apiGetBooksByName: GetBooksByName;
+  private readonly getAuthorsApi: GetAuthors;
 
-  private readonly apiGetBooksBySeries: GetBooksBySeries;
+  private readonly getBooksByNameApi: GetBooksByName;
 
-  private readonly apiGetAuthors: GetAuthors;
+  private readonly getBooksBySeriesApi: GetBooksBySeries;
 
   constructor(flibustaBaseURL = 'http://flibusta.is/', axiosConfig?: AxiosRequestConfig) {
     const axiosInstance = axios.create({
@@ -16,21 +16,33 @@ class FlibustaAPI {
       ...axiosConfig,
     });
 
-    this.apiGetBooksByName = new GetBooksByName(axiosInstance);
-    this.apiGetBooksBySeries = new GetBooksBySeries(axiosInstance);
-    this.apiGetAuthors = new GetAuthors(axiosInstance);
+    this.getAuthorsApi = new GetAuthors(axiosInstance);
+    this.getBooksByNameApi = new GetBooksByName(axiosInstance);
+    this.getBooksBySeriesApi = new GetBooksBySeries(axiosInstance);
   }
 
-  getBooksByName(name: string, page = 0, limit = 50) {
-    return this.apiGetBooksByName.getBooksByName(name, page, limit);
+  getAuthors(name: string) {
+    return this.getAuthorsApi.getAuthors(name);
   }
 
-  getBooksBySeries(name: string, page = 0, limit = 50) {
-    return this.apiGetBooksBySeries.getBooksBySeries(name, page, limit);
+  getAuthorsPaginated(name: string, page = 0, limit = 50) {
+    return this.getAuthorsApi.getAuthorsPaginated(name, page, limit);
   }
 
-  getAuthors(name: string, page = 0, limit = 50) {
-    return this.apiGetAuthors.getAuthors(name, page, limit);
+  getBooksByName(name: string) {
+    return this.getBooksByNameApi.getBooksByName(name);
+  }
+
+  getBooksByNamePaginated(name: string, page = 0, limit = 50) {
+    return this.getBooksByNameApi.getBooksByNamePaginated(name, page, limit);
+  }
+
+  getBooksBySeries(name: string) {
+    return this.getBooksBySeriesApi.getBooksBySeries(name);
+  }
+
+  getBooksBySeriesPaginated(name: string, page = 0, limit = 50) {
+    return this.getBooksBySeriesApi.getBooksBySeriesPaginated(name, page, limit);
   }
 }
 
