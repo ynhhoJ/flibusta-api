@@ -3,7 +3,8 @@ import FlibustaAPIHelper from '../flibustaApiHelper';
 import { AxiosInstance } from 'axios';
 import { HTMLElement } from 'node-html-parser';
 import { SearchAuthorsResult } from '../../types/searchAuthorsResult';
-import { isEmpty, isNil } from 'lodash';
+import { isNil } from 'lodash';
+import { Nullable } from '../../types/generals';
 
 class GetAuthors extends FlibustaAPIHelper {
   private static getAuthorTranslationsRegExp = /\d (перевода|перевод)/g;
@@ -20,13 +21,47 @@ class GetAuthors extends FlibustaAPIHelper {
     return `booksearch?ask=${encodeURIComponent(name)}&page=${page}&cha=on`;
   }
 
-  private async fetchAuthorsFromFlibusta(name: string, page: number): Promise<HTMLElement | null> {
+  private async fetchAuthorsFromFlibusta(name: string, page = 0): Promise<HTMLElement | null> {
     const url = GetAuthors.generateGetBooksByNameURL(name, page);
 
     return this.getFlibustaHTMLPage(url);
   }
 
-  public async getAuthors(name: string, page = 0, limit = 50): Promise<undefined | SearchAuthorsResult> {
+  private generateAuthorsListResponse(authorsHTMLList: Array<HTMLElement>): Array<AuthorBooks> {
+    return authorsHTMLList.map((author) => {
+      const [authorInformationHTML, ...booksOrTranslations] = author.childNodes;
+
+      const authorInformationAsHTML = authorInformationHTML as HTMLElement;
+      const authorInformation = this.getInformationOfBookOrAuthor(authorInformationAsHTML);
+
+      const books = this.getBooksOrTranslations(booksOrTranslations, this.getAuthorBooksRegExp);
+      const translations = this.getBooksOrTranslations(
+        booksOrTranslations,
+        GetAuthors.getAuthorTranslationsRegExp,
+      );
+
+      return {
+        ...authorInformation,
+        books,
+        translations,
+      };
+    });
+  }
+
+  public async getAuthors(name: string): Promise<Nullable<Array<AuthorBooks>>> {
+    const authorsListResult = await this.fetchAuthorsFromFlibusta(name);
+
+    if (isNil(authorsListResult)) {
+      return undefined;
+    }
+
+    const authorsHtmlListWithoutPager = this.removePagerElements(authorsListResult);
+    const authorsList = authorsHtmlListWithoutPager.querySelectorAll('ul li');
+
+    return this.generateAuthorsListResponse(authorsList);
+  }
+
+  public async getAuthorsPaginated(name: string, page = 0, limit = 50): Promise<Nullable<SearchAuthorsResult>> {
     const authorsListResult = await this.fetchAuthorsFromFlibusta(name, page);
 
     if (isNil(authorsListResult)) {
@@ -34,33 +69,14 @@ class GetAuthors extends FlibustaAPIHelper {
     }
 
     const pages = this.getCurrentPageInformation(authorsListResult);
-    const pagerElement = authorsListResult.querySelectorAll('div.item-list .pager');
 
-    if (!isEmpty(pagerElement)) {
-      pagerElement[0].remove();
-    }
+    const authorsListResultWithoutPagination = this.removePagerElements(authorsListResult);
+    const authorsList = authorsListResultWithoutPagination.querySelectorAll('ul li').slice(0, limit);
 
-    const booksSeries = authorsListResult.querySelectorAll('ul li').slice(0, limit);
+    const items = this.generateAuthorsListResponse(authorsList);
 
-    const items: Array<AuthorBooks> = booksSeries.map((series) => {
-      const [authorInformation, ...booksOrTranslations] = series.childNodes;
-      const books = this.getBooksOrTranslations(booksOrTranslations, this.getAuthorBooksRegExp);
-      const authorInformationAsHTML = authorInformation as HTMLElement;
-      const author = this.getInformationOfBookOrAuthor(authorInformationAsHTML);
-      const translations = this.getBooksOrTranslations(
-        booksOrTranslations,
-        GetAuthors.getAuthorTranslationsRegExp,
-      );
-
-      return {
-        ...author,
-        books,
-        translations,
-      };
-    });
-
-    const booksSeriesListResultAsHTML = authorsListResult as HTMLElement;
-    const totalCountItems = this.getTotalItemsCount(booksSeriesListResultAsHTML);
+    const authorsListResultAsHTML = authorsListResultWithoutPagination as HTMLElement;
+    const totalCountItems = this.getTotalItemsCount(authorsListResultAsHTML);
 
     return {
       items,
