@@ -7,7 +7,7 @@ import { BooksByName } from '../../types/booksByName';
 import { HTMLElement, Node } from 'node-html-parser';
 import { Nullable } from '../../types/generals';
 import { SearchBooksByNameResult } from '../../types/searchBooksByNameResult';
-import { isEmpty, isNil } from 'lodash';
+import { isNil } from 'lodash';
 
 class GetBooksByName extends FlibustaAPIHelper {
   public axiosInstance: AxiosInstance;
@@ -89,15 +89,12 @@ class GetBooksByName extends FlibustaAPIHelper {
     }
 
     const pages = this.getCurrentPageInformation(booksListResult);
-    const pagerElement = booksListResult.querySelectorAll('div.item-list .pager');
 
-    if (!isEmpty(pagerElement)) {
-      pagerElement[0].remove();
-    }
-
-    const books = booksListResult.querySelectorAll('ul li').slice(0, limit);
+    const booksSeriesHtmlListWithoutPager = this.removePagerElements(booksListResult);
+    const books = booksSeriesHtmlListWithoutPager.querySelectorAll('ul li').slice(0, limit);
 
     const items = this.generateBooksListResponse(books);
+
     const booksSeriesListResultAsHTML = booksListResult as HTMLElement;
     const totalCountItems = this.getTotalItemsCount(booksSeriesListResultAsHTML);
 
