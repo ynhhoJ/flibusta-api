@@ -1,4 +1,4 @@
-import { Nullable } from '../../types/generals';
+import { Nullable } from '@localTypes/generals';
 
 class String {
   public static getNumbersFromString(string: string): string {

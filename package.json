@@ -1,6 +1,6 @@
 {
   "name": "flibusta-api",
-  "version": "0.2.3",
+  "version": "0.2.5",
   "author": "ynhhoJ",
   "license": "MIT",
   "packageManager": "yarn@3.1.1",
@@ -29,9 +29,10 @@
     "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-sonarjs": "^0.11.0",
-    "eslint-plugin-unicorn": "^40.1.0",
+    "eslint-plugin-unicorn": "^41.0.0",
     "ts-node": "^10.5.0",
-    "typescript": "^4.5.5"
+    "typescript": "^4.5.5",
+    "typescript-transform-paths": "^3.3.1"
   },
   "keywords": [
     "book",

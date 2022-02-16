@@ -1,13 +1,13 @@
-import Author from '../../types/authors';
-import Book from '../../types/book';
-import FlibustaAPIHelper from '../flibustaApiHelper';
-import StringUtils from '../utils/string';
 import { AxiosInstance } from 'axios';
-import { BooksByName } from '../../types/booksByName';
 import { HTMLElement, Node } from 'node-html-parser';
-import { Nullable } from '../../types/generals';
-import { SearchBooksByNameResult } from '../../types/searchBooksByNameResult';
 import { isNil } from 'lodash';
+import Author from '@localTypes/authors';
+import Book from '@localTypes/book';
+import FlibustaAPIHelper from '@src/flibustaApiHelper';
+import String from '@utils/string';
+import { BooksByName } from '@localTypes/booksByName';
+import { Nullable } from '@localTypes/generals';
+import { SearchBooksByNameResult } from '@localTypes/searchBooksByNameResult';
 
 class GetBooksByName extends FlibustaAPIHelper {
   public axiosInstance: AxiosInstance;
@@ -34,11 +34,11 @@ class GetBooksByName extends FlibustaAPIHelper {
     node.forEach((author) => {
       const authorAsHTML = author as HTMLElement;
 
-      if (StringUtils.isComma(authorAsHTML.text)) {
+      if (String.isComma(authorAsHTML.text)) {
         return;
       }
 
-      const idAsString = StringUtils.getNumbersFromString(authorAsHTML.attrs.href);
+      const idAsString = String.getNumbersFromString(authorAsHTML.attrs.href);
       const id = Number.parseInt(idAsString, 10);
 
       result.push({

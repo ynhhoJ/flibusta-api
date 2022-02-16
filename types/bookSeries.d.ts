@@ -1,5 +1,6 @@
 import Book from './book';
+import { Nullable } from './generals';
 
 export default interface BookSeries extends Book {
-  books: number;
+  books: Nullable<number>;
 }
