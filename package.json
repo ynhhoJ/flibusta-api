@@ -31,7 +31,8 @@
     "eslint-plugin-sonarjs": "^0.11.0",
     "eslint-plugin-unicorn": "^40.1.0",
     "ts-node": "^10.5.0",
-    "typescript": "^4.5.5"
+    "typescript": "^4.5.5",
+    "typescript-transform-paths": "^3.3.1"
   },
   "keywords": [
     "book",
