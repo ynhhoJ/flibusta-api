@@ -8,7 +8,7 @@
 
 <hr/>
 
-##Examples
+## Examples
 1. Clone repository
 2. Use `yarn install` or `npm install`
 3. Use commands:
