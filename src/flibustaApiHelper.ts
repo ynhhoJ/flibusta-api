@@ -119,6 +119,29 @@ abstract class FlibustaAPIHelper {
 
     return Number.parseInt(totalItemsCountNumberAsString, 10);
   }
+
+  /**
+   * Pager Elements a.k.a Pagination is created in flibusta using ul/ui and books/authors/series results are also
+   * wrapped in ul/ui, pagination element may cause error at parsing those data and we need to remove it before parsing
+   * starts.
+   *
+   * @param parsedHTMLData
+   *
+   * @return HTMLElement
+   */
+  public removePagerElements(parsedHTMLData: HTMLElement): HTMLElement {
+    const pagerElement = parsedHTMLData.querySelectorAll('div.item-list .pager');
+
+    if (isEmpty(pagerElement)) {
+      return parsedHTMLData;
+    }
+
+    pagerElement.forEach((pager) => {
+      pager.remove();
+    });
+
+    return parsedHTMLData;
+  }
 }
 
 export default FlibustaAPIHelper;

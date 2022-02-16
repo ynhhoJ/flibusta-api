@@ -4,7 +4,8 @@ import FlibustaAPIHelper from '../flibustaApiHelper';
 import { AxiosInstance } from 'axios';
 import { HTMLElement } from 'node-html-parser';
 import { SearchBooksBySeriesResult } from '../../types/searchBooksBySeriesResult';
-import { isEmpty, isNil } from 'lodash';
+import { isNil } from 'lodash';
+import { Nullable } from '../../types/generals';
 
 class GetBooksBySeries extends FlibustaAPIHelper {
   public axiosInstance: AxiosInstance;
@@ -19,29 +20,14 @@ class GetBooksBySeries extends FlibustaAPIHelper {
     return `booksearch?ask=${encodeURIComponent(name)}&page=${page}&chs=on`;
   }
 
-  private async fetchBooksBySeriesFromFlibusta(name: string, page: number): Promise<HTMLElement | null> {
+  private async fetchBooksBySeriesFromFlibusta(name: string, page = 0): Promise<HTMLElement | null> {
     const url = GetBooksBySeries.generateGetBooksByNameURL(name, page);
 
     return this.getFlibustaHTMLPage(url);
   }
 
-  public async getBooksBySeries(name: string, page = 0, limit = 50): Promise<undefined | SearchBooksBySeriesResult> {
-    const booksSeriesListResult = await this.fetchBooksBySeriesFromFlibusta(name, page);
-
-    if (isNil(booksSeriesListResult)) {
-      return undefined;
-    }
-
-    const pages = this.getCurrentPageInformation(booksSeriesListResult);
-    const pagerElement = booksSeriesListResult.querySelectorAll('div.item-list .pager');
-
-    if (!isEmpty(pagerElement)) {
-      pagerElement[0].remove();
-    }
-
-    const authors = booksSeriesListResult.querySelectorAll('ul li').slice(0, limit);
-
-    const items: Array<BookSeries> = authors.map((item) => {
+  private generateBooksSeriesListResponse(booksSeriesHtmlList: Array<HTMLElement>): Array<BookSeries> {
+    return booksSeriesHtmlList.map((item) => {
       const [authorInformation, ...booksOrTranslations] = item.childNodes;
       const books = this.getBooksOrTranslations(booksOrTranslations, this.getAuthorBooksRegExp);
       const authorInformationAsHTML = authorInformation as HTMLElement;
@@ -52,6 +38,38 @@ class GetBooksBySeries extends FlibustaAPIHelper {
         books,
       };
     });
+  }
+
+  public async getBooksBySeries(name: string): Promise<Nullable<Array<BookSeries>>> {
+    const booksListResult = await this.fetchBooksBySeriesFromFlibusta(name);
+
+    if (isNil(booksListResult)) {
+      return undefined;
+    }
+
+    const booksHtmlListWithoutPager = this.removePagerElements(booksListResult);
+    const booksHtmlList = booksHtmlListWithoutPager.querySelectorAll('ul li');
+
+    return this.generateBooksSeriesListResponse(booksHtmlList);
+  }
+
+  public async getBooksBySeriesPaginated(
+    name: string,
+    page = 0,
+    limit = 50,
+  ): Promise<Nullable<SearchBooksBySeriesResult>> {
+    const booksSeriesListResult = await this.fetchBooksBySeriesFromFlibusta(name, page);
+
+    if (isNil(booksSeriesListResult)) {
+      return undefined;
+    }
+
+    const pages = this.getCurrentPageInformation(booksSeriesListResult);
+
+    const booksSeriesHtmlListWithoutPager = this.removePagerElements(booksSeriesListResult);
+    const booksSeriesListHTMLList = booksSeriesHtmlListWithoutPager.querySelectorAll('ul li').slice(0, limit);
+
+    const items = this.generateBooksSeriesListResponse(booksSeriesListHTMLList);
 
     const booksSeriesListResultAsHTML = booksSeriesListResult as HTMLElement;
     const totalCountItems = this.getTotalItemsCount(booksSeriesListResultAsHTML);
