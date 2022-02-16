@@ -1,10 +1,10 @@
-import AuthorBooks from '../../types/authorsBook';
-import FlibustaAPIHelper from '../flibustaApiHelper';
 import { AxiosInstance } from 'axios';
 import { HTMLElement } from 'node-html-parser';
-import { SearchAuthorsResult } from '../../types/searchAuthorsResult';
 import { isNil } from 'lodash';
-import { Nullable } from '../../types/generals';
+import AuthorBooks from '@localTypes/authorsBook';
+import FlibustaAPIHelper from '@src/flibustaApiHelper';
+import { Nullable } from '@localTypes/generals';
+import { SearchAuthorsResult } from '@localTypes/searchAuthorsResult';
 
 class GetAuthors extends FlibustaAPIHelper {
   private static getAuthorTranslationsRegExp = /\d (перевода|перевод)/g;

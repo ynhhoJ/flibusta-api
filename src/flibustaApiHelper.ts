@@ -1,11 +1,11 @@
-import Author from '../types/authors';
-import Book from '../types/book';
-import String from './utils/string';
 import { AxiosInstance } from 'axios';
 import { HTMLElement, parse, Node } from 'node-html-parser';
-import { PagesInformation } from '../types/pagesInformation';
 import { isEmpty, isNil } from 'lodash';
-import { Nullable } from '../types/generals';
+import Author from '@localTypes/authors';
+import Book from '@localTypes/book';
+import String from '@utils/string';
+import { PagesInformation } from '@localTypes/pagesInformation';
+import { Nullable } from '@localTypes/generals';
 
 abstract class FlibustaAPIHelper {
   public axiosInstance: AxiosInstance;

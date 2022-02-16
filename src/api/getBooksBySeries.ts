@@ -1,11 +1,11 @@
-import Book from '../../types/book';
-import BookSeries from '../../types/bookSeries';
-import FlibustaAPIHelper from '../flibustaApiHelper';
 import { AxiosInstance } from 'axios';
 import { HTMLElement } from 'node-html-parser';
-import { SearchBooksBySeriesResult } from '../../types/searchBooksBySeriesResult';
 import { isNil } from 'lodash';
-import { Nullable } from '../../types/generals';
+import Book from '@localTypes/book';
+import BookSeries from '@localTypes/bookSeries';
+import FlibustaAPIHelper from '@src/flibustaApiHelper';
+import { Nullable } from '@localTypes/generals';
+import { SearchBooksBySeriesResult } from '@localTypes/searchBooksBySeriesResult';
 
 class GetBooksBySeries extends FlibustaAPIHelper {
   public axiosInstance: AxiosInstance;
