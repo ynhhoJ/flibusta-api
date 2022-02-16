@@ -1,7 +1,7 @@
 import Author from '../../types/authors';
 import Book from '../../types/book';
 import FlibustaAPIHelper from '../flibustaApiHelper';
-import StringUtils from '../utils/string';
+import String from '../utils/string';
 import { AxiosInstance } from 'axios';
 import { BooksByName } from '../../types/booksByName';
 import { HTMLElement, Node } from 'node-html-parser';
@@ -34,11 +34,11 @@ class GetBooksByName extends FlibustaAPIHelper {
     node.forEach((author) => {
       const authorAsHTML = author as HTMLElement;
 
-      if (StringUtils.isComma(authorAsHTML.text)) {
+      if (String.isComma(authorAsHTML.text)) {
         return;
       }
 
-      const idAsString = StringUtils.getNumbersFromString(authorAsHTML.attrs.href);
+      const idAsString = String.getNumbersFromString(authorAsHTML.attrs.href);
       const id = Number.parseInt(idAsString, 10);
 
       result.push({
