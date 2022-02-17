@@ -263,3 +263,104 @@ yarn example-search-book-by-series-paginated [series name] [page number] [items 
 }
 ```
 </details>
+
+<hr />
+
+### getGenres(name)
+* `name` - The name of searched genre.
+
+##### Example
+`getGenres('роман')`
+
+##### Response
+<details>
+    <summary>Response</summary>
+
+```json
+[
+  {
+    "id": "det_irony",
+    "name": "Иронический детектив, дамский детективный роман"
+  },
+  {
+    "id": "love_contemporary",
+    "name": "Современные любовные романы"
+  },
+  {
+    "id": "love_history",
+    "name": "Исторические любовные романы"
+  },
+  {
+    "id": "love_detective",
+    "name": "Остросюжетные любовные романы"
+  },
+  {
+    "id": "love_short",
+    "name": "Короткие любовные романы"
+  },
+  {
+    "id": "love",
+    "name": "Любовные романы"
+  },
+  {
+    "id": "love_sf",
+    "name": "Любовное фэнтези, любовно-фантастические романы "
+  },
+  {
+    "id": "tale_chivalry",
+    "name": "Рыцарский роман"
+  },
+  {
+    "id": "adv_story",
+    "name": "Авантюрный роман"
+  },
+  {
+    "id": "gothic_novel",
+    "name": "Готический роман"
+  },
+  {
+    "id": "great_story",
+    "name": "Роман, повесть"
+  },
+  {
+    "id": "astrology",
+    "name": "Астрология и хиромантия"
+  }
+]
+```
+</details>
+
+<hr />
+
+### getGenresPaginated(name, page?, limit?)
+* `name` - The name of searched genre.
+* `page?` - Optional to get books by name for page. By default `0`.
+* `limit?` - Optional. Limit rows count in `items`. By default `50`.
+
+##### Example
+`getGenresPaginated('конан', 0, 2)`
+
+##### Response
+<details>
+    <summary>Response</summary>
+
+```json
+{
+  "items": [
+    {
+      "id": "det_irony",
+      "name": "Иронический детектив, дамский детективный роман"
+    },
+    {
+      "id": "love_contemporary",
+      "name": "Современные любовные романы"
+    }
+  ],
+  "currentPage": 0,
+  "totalCountItems": 12,
+  "totalPages": 1,
+  "hasNextPage": false,
+  "hasPreviousPage": false
+}
+```
+</details>
