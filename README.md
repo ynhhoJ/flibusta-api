@@ -338,7 +338,7 @@ yarn example-search-book-by-series-paginated [series name] [page number] [items 
 * `limit?` - Optional. Limit rows count in `items`. By default `50`.
 
 ##### Example
-`getGenresPaginated('конан', 0, 2)`
+`getGenresPaginated('роман', 0, 2)`
 
 ##### Response
 <details>
