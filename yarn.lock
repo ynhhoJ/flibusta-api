@@ -1088,6 +1088,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-xml-parser@npm:^4.0.3":
+  version: 4.0.3
+  resolution: "fast-xml-parser@npm:4.0.3"
+  dependencies:
+    strnum: ^1.0.5
+  bin:
+    fxparser: src/cli/cli.js
+  checksum: 100bb20bcc6aa1543fa277c81f64ad109abec80accacf0bf6bea61f5e847b5c8b734321da609dc10aea68ed68e380447ff3a27196942e137ef39e6e7eb6c053f
+  languageName: node
+  linkType: hard
+
 "fastq@npm:^1.6.0":
   version: 1.13.0
   resolution: "fastq@npm:1.13.0"
@@ -1168,6 +1179,7 @@ __metadata:
     eslint-plugin-import: ^2.25.4
     eslint-plugin-sonarjs: ^0.11.0
     eslint-plugin-unicorn: ^41.0.0
+    fast-xml-parser: ^4.0.3
     lodash: ^4.17.21
     node-html-parser: ^5.2.0
     ts-node: ^10.5.0
@@ -2249,6 +2261,13 @@ __metadata:
   version: 3.1.1
   resolution: "strip-json-comments@npm:3.1.1"
   checksum: 492f73e27268f9b1c122733f28ecb0e7e8d8a531a6662efbd08e22cccb3f9475e90a1b82cab06a392f6afae6d2de636f977e231296400d0ec5304ba70f166443
+  languageName: node
+  linkType: hard
+
+"strnum@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "strnum@npm:1.0.5"
+  checksum: 651b2031db5da1bf4a77fdd2f116a8ac8055157c5420f5569f64879133825915ad461513e7202a16d7fec63c54fd822410d0962f8ca12385c4334891b9ae6dd2
   languageName: node
   linkType: hard
 
