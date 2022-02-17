@@ -1,6 +1,6 @@
 {
   "name": "flibusta-api",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "author": "ynhhoJ",
   "license": "MIT",
   "packageManager": "yarn@3.1.1",
@@ -10,7 +10,9 @@
     "example-search-book-by-name": "ts-node ./examples/searchBooksByName.ts",
     "example-search-book-by-name-paginated": "ts-node ./examples/searchBooksByNamePaginated.ts",
     "example-search-book-by-series": "ts-node ./examples/searchBooksBySeries.ts",
-    "example-search-book-by-series-paginated": "ts-node ./examples/searchBooksBySeriesPaginated.ts"
+    "example-search-book-by-series-paginated": "ts-node ./examples/searchBooksBySeriesPaginated.ts",
+    "example-search-genres": "ts-node ./examples/searchGenres.ts",
+    "example-search-genres-paginated": "ts-node ./examples/searchGenresPaginated.ts"
   },
   "dependencies": {
     "axios": "^0.26.0",

@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import GetAuthors from './api/getAuthors';
 import GetBooksByName from './api/getBooksByName';
 import GetBooksBySeries from './api/getBooksBySeries';
+import GetGenres from './api/getGenres';
 
 class FlibustaAPI {
   private readonly getAuthorsApi: GetAuthors;
@@ -9,6 +10,8 @@ class FlibustaAPI {
   private readonly getBooksByNameApi: GetBooksByName;
 
   private readonly getBooksBySeriesApi: GetBooksBySeries;
+
+  private readonly getGenresApi: GetGenres;
 
   constructor(flibustaBaseURL = 'http://flibusta.is/', axiosConfig?: AxiosRequestConfig) {
     const axiosInstance = axios.create({
@@ -19,6 +22,7 @@ class FlibustaAPI {
     this.getAuthorsApi = new GetAuthors(axiosInstance);
     this.getBooksByNameApi = new GetBooksByName(axiosInstance);
     this.getBooksBySeriesApi = new GetBooksBySeries(axiosInstance);
+    this.getGenresApi = new GetGenres(axiosInstance);
   }
 
   getAuthors(name: string) {
@@ -43,6 +47,14 @@ class FlibustaAPI {
 
   getBooksBySeriesPaginated(name: string, page = 0, limit = 50) {
     return this.getBooksBySeriesApi.getBooksBySeriesPaginated(name, page, limit);
+  }
+
+  getGenres(name: string) {
+    return this.getGenresApi.getGenres(name);
+  }
+
+  getGenresPaginated(name: string, page = 0, limit = 50) {
+    return this.getGenresApi.getGenresPaginated(name, page, limit);
   }
 }
 
