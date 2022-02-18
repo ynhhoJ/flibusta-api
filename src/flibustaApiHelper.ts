@@ -3,11 +3,12 @@ import { HTMLElement, parse, Node } from 'node-html-parser';
 import { isEmpty, isNil } from 'lodash';
 import Author from '@localTypes/authors';
 import Book from '@localTypes/book';
+import FlibustaOpdsApiHelper from '@src/flibustaOpdsApiHelper';
 import String from '@utils/string';
 import { PagesInformation } from '@localTypes/pagesInformation';
 import { Nullable } from '@localTypes/generals';
 
-abstract class FlibustaAPIHelper {
+abstract class FlibustaAPIHelper extends FlibustaOpdsApiHelper {
   public axiosInstance: AxiosInstance;
 
   public getAuthorBooksRegExp = /\d+ книг/g;
@@ -15,6 +16,8 @@ abstract class FlibustaAPIHelper {
   public matchOnlyNumbersRegExp = /\d+/g;
 
   protected constructor(axiosController: AxiosInstance) {
+    super(axiosController);
+
     this.axiosInstance = axiosController;
   }
 
