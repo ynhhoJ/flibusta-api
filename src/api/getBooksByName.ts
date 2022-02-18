@@ -7,7 +7,7 @@ import FlibustaAPIHelper from '@src/flibustaApiHelper';
 import String from '@utils/string';
 import { BooksByName } from '@localTypes/booksByName';
 import { Nullable } from '@localTypes/generals';
-import { SearchBooksByNameResult } from '@localTypes/searchBooksByNameResult';
+import { PaginatedSearchResult } from '@localTypes/paginatedSearchResult';
 
 class GetBooksByName extends FlibustaAPIHelper {
   public axiosInstance: AxiosInstance;
@@ -81,7 +81,7 @@ class GetBooksByName extends FlibustaAPIHelper {
     name: string,
     page = 0,
     limit = 50,
-  ): Promise<Nullable<SearchBooksByNameResult>> {
+  ): Promise<Nullable<PaginatedSearchResult<Array<BooksByName>>>> {
     const booksListResult = await this.fetchBooksByNameFromFlibusta(name, page);
 
     if (isNil(booksListResult)) {

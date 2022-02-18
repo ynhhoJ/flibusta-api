@@ -5,7 +5,7 @@ import FlibustaAPIHelper from '@src/flibustaApiHelper';
 import String from '@utils/string';
 import { Genres } from '@localTypes/genres';
 import { Nullable } from '@localTypes/generals';
-import { SearchGenresResult } from '@localTypes/searchGenresResult';
+import { PaginatedSearchResult } from '@localTypes/paginatedSearchResult';
 
 class GetGenres extends FlibustaAPIHelper {
   public axiosInstance: AxiosInstance;
@@ -64,7 +64,7 @@ class GetGenres extends FlibustaAPIHelper {
     name: string,
     page = 0,
     limit = 50,
-  ): Promise<Nullable<SearchGenresResult>> {
+  ): Promise<Nullable<PaginatedSearchResult<Array<Genres>>>> {
     const genresListResult = await this.fetchGenresFromFlibusta(name, page);
 
     if (isNil(genresListResult)) {
