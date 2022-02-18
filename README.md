@@ -80,6 +80,94 @@ yarn example-search-book-by-series-paginated [series name] [page number] [items 
 
 <hr />
 
+<hr />
+
+### getBooksByNameFromOpds(name)
+* `name` - The name of searched books.
+
+##### Example
+`getBooksByNameFromOpds('Шерлок')`
+
+##### Response
+<details>
+  <summary>Response</summary>
+
+```json
+[
+  {
+    "author": [
+      {
+        "name": "Талышханов Адиль",
+        "uri": "/a/31745"
+      }
+    ],
+    "title": "`Путь бесхвостой птички` или Иероглифика по методу Шерлока Холмса",
+    "updated": "2022-02-18T07:21:09+01:00",
+    "categories": [
+      "Языкознание, иностранные языки"
+    ],
+    "downloads": [
+      {
+        "link": "/b/112478/download",
+        "type": "application/pdf+rar"
+      }
+    ],
+    "description": "Формат: pdf<br/>Язык: ru<br/>Размер: 564 Kb<br/>Скачиваний: 2632<br/>"
+  },
+  ...
+]
+```
+</details>
+
+<hr/>
+
+### getBooksByNameFromOpdsPaginated(name, page?, limit?)
+* `name` - The name of searched books.
+* `page?` - Optional to get books by name for page. By default `0`.
+* `limit?` - Optional. Limit rows count in `items`. By default `20`.
+
+##### Example
+`getBooksByNameFromOpdsPaginated('Шерлок', 0, 1)`
+
+##### Response
+<details>
+  <summary>Response</summary>
+
+```json
+{
+  "items": [
+    {
+      "author": [
+        {
+          "name": "Талышханов Адиль",
+          "uri": "/a/31745"
+        }
+      ],
+      "title": "`Путь бесхвостой птички` или Иероглифика по методу Шерлока Холмса",
+      "updated": "2022-02-18T18:01:50+01:00",
+      "categories": [
+        "Языкознание, иностранные языки"
+      ],
+      "downloads": [
+        {
+          "link": "/b/112478/download",
+          "type": "application/pdf+rar"
+        }
+      ],
+      "description": "Формат: pdf<br/>Язык: ru<br/>Размер: 564 Kb<br/>Скачиваний: 2632<br/>"
+    }
+  ],
+  "currentPage": 0,
+  "totalCountItems": 228,
+  "hasNextPage": true,
+  "hasPreviousPage": false,
+  "totalPages": 11
+}
+```
+</details>
+
+<hr/>
+
 ### getBooksByNamePaginated(name, page?, limit?)
 * `name` - The name of searched books.
 * `page?` - Optional to get books by name for page. By default `0`.

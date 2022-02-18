@@ -4,7 +4,7 @@ import { isNil } from 'lodash';
 import AuthorBooks from '@localTypes/authorsBook';
 import FlibustaAPIHelper from '@src/flibustaApiHelper';
 import { Nullable } from '@localTypes/generals';
-import { SearchAuthorsResult } from '@localTypes/searchAuthorsResult';
+import { PaginatedSearchResult } from '@localTypes/paginatedSearchResult';
 
 class GetAuthors extends FlibustaAPIHelper {
   private static getAuthorTranslationsRegExp = /\d (перевода|перевод)/g;
@@ -61,7 +61,11 @@ class GetAuthors extends FlibustaAPIHelper {
     return this.generateAuthorsListResponse(authorsList);
   }
 
-  public async getAuthorsPaginated(name: string, page = 0, limit = 50): Promise<Nullable<SearchAuthorsResult>> {
+  public async getAuthorsPaginated(
+    name: string,
+    page = 0,
+    limit = 50,
+  ): Promise<Nullable<PaginatedSearchResult<Array<AuthorBooks>>>> {
     const authorsListResult = await this.fetchAuthorsFromFlibusta(name, page);
 
     if (isNil(authorsListResult)) {
