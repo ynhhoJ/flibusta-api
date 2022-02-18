@@ -37,6 +37,10 @@ class FlibustaAPI {
     return this.getBooksByNameApi.getBooksByName(name);
   }
 
+  getBooksByNameFromOpds(name: string) {
+    return this.getBooksByNameApi.getBooksByNameFromOpds(name);
+  }
+
   getBooksByNamePaginated(name: string, page = 0, limit = 50) {
     return this.getBooksByNameApi.getBooksByNamePaginated(name, page, limit);
   }
