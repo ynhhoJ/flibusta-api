@@ -8,6 +8,7 @@
     "example-search-authors": "ts-node ./examples/searchAuthors.ts",
     "example-search-authors-paginated": "ts-node ./examples/searchAuthorsPaginated.ts",
     "example-search-book-by-name": "ts-node ./examples/searchBooksByName.ts",
+    "example-search-book-by-name-opds": "ts-node ./examples/searchBooksByNameFromOpds.ts",
     "example-search-book-by-name-paginated": "ts-node ./examples/searchBooksByNamePaginated.ts",
     "example-search-book-by-series": "ts-node ./examples/searchBooksBySeries.ts",
     "example-search-book-by-series-paginated": "ts-node ./examples/searchBooksBySeriesPaginated.ts",
