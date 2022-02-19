@@ -1,13 +1,14 @@
 import { AxiosInstance } from 'axios';
 import { HTMLElement } from 'node-html-parser';
 import { isNil } from 'lodash';
+
 import AuthorBooks from '@localTypes/authorsBook';
 import FlibustaAPIHelper from '@src/flibustaApiHelper';
 import { Nullable } from '@localTypes/generals';
 import { PaginatedSearchResult } from '@localTypes/paginatedSearchResult';
 
 class GetAuthors extends FlibustaAPIHelper {
-  private static getAuthorTranslationsRegExp = /\d (перевода|перевод)/g;
+  private static getAuthorTranslationsRegExp = /\d+ (перевода|перевод)/g;
 
   public axiosInstance: AxiosInstance;
 
