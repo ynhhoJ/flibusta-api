@@ -1,6 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { HTMLElement, Node } from 'node-html-parser';
 import { isNil } from 'lodash';
+
 import Author from '@localTypes/authors';
 import Book from '@localTypes/book';
 import FlibustaAPIHelper from '@src/flibustaApiHelper';
@@ -34,7 +35,7 @@ class GetBooksByName extends FlibustaAPIHelper {
     node.forEach((author) => {
       const authorAsHTML = author as HTMLElement;
 
-      if (String.isComma(authorAsHTML.text)) {
+      if (String.containsComma(authorAsHTML.text)) {
         return;
       }
 

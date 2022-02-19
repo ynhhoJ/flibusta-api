@@ -1,6 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { HTMLElement, parse, Node } from 'node-html-parser';
 import { isEmpty, isNil } from 'lodash';
+
 import Author from '@localTypes/authors';
 import Book from '@localTypes/book';
 import FlibustaOpdsApiHelper from '@src/flibustaOpdsApiHelper';
