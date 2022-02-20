@@ -98,24 +98,23 @@ class FlibustaOpdsApiHelper {
     return round(totalResults / itemsPerPage, 0);
   }
 
-  public hasNextPage(feed: OpdsSearchResult['feed']): boolean {
-    const totalResults = feed['os:totalResults'];
-    const currentPageIndex = feed['os:startIndex'];
-
+  public hasNextPage(
+    totalResults: OpdsSearchResult['feed']['os:totalResults'],
+    currentPageIndex: OpdsSearchResult['feed']['os:itemsPerPage'],
+  ): boolean {
     return (currentPageIndex + FlibustaOpdsApiHelper.ITEMS_PER_PAGE) < totalResults;
   }
 
-  public hasPreviousPage(feed: OpdsSearchResult['feed']): boolean {
-    const currentPageIndex = feed['os:startIndex'];
-
-    return !!(currentPageIndex / FlibustaOpdsApiHelper.ITEMS_PER_PAGE);
+  public hasPreviousPage(currentPageIndex: OpdsSearchResult['feed']['os:startIndex']): boolean {
+    return !(currentPageIndex <= 0);
   }
 
   public getCurrentOpdsPageInformation(feed: OpdsSearchResult['feed']): PagesInformation {
     const totalResults = feed['os:totalResults'];
     const itemsPerPage = feed['os:itemsPerPage'];
-    const hasNextPage = this.hasNextPage(feed);
-    const hasPreviousPage = this.hasPreviousPage(feed);
+    const currentPageIndex = feed['os:startIndex'];
+    const hasNextPage = this.hasNextPage(totalResults, currentPageIndex);
+    const hasPreviousPage = this.hasPreviousPage(currentPageIndex);
     const totalPages = this.getTotalPagesCount(totalResults, itemsPerPage);
 
     return {

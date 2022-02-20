@@ -1,6 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { HTMLElement } from 'node-html-parser';
 import { isNil } from 'lodash';
+
 import FlibustaAPIHelper from '@src/flibustaApiHelper';
 import String from '@utils/string';
 import { Genres } from '@localTypes/genres';
