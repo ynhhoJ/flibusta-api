@@ -5,7 +5,7 @@ class String {
     return string.replace(/\D/g, '');
   }
 
-  public static isComma(string: string): boolean {
+  public static containsComma(string: string): boolean {
     return /,/.test(string);
   }
 

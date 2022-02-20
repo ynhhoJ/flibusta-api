@@ -1,4 +1,5 @@
 .idea
+.nyc_output
 .yarn
 node_modules
 .yarnrc
