@@ -1,9 +1,19 @@
 {
-  "name": "flibusta-api",
+  "name": "flibusta",
   "version": "0.2.7",
   "author": "ynhhoJ",
+  "description": "Unofficial Flibusta API based on website search engine. If you like to read books - buy",
   "license": "MIT",
   "packageManager": "yarn@3.2.0-rc.15",
+  "main": "build/src/index.js",
+  "types": "./lib/src/index.d.ts",
+  "files": [
+    "build"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:ynhhoJ/flibusta-api.git"
+  },
   "scripts": {
     "example-search-authors": "ts-node ./examples/searchAuthors.ts",
     "example-search-authors-paginated": "ts-node ./examples/searchAuthorsPaginated.ts",
@@ -16,7 +26,8 @@
     "example-search-genres": "ts-node ./examples/searchGenres.ts",
     "example-search-genres-paginated": "ts-node ./examples/searchGenresPaginated.ts",
     "test": "npm run test:specific 'tests/**/*.ts'",
-    "test:specific": "npx nyc mocha --node-flags '--unhandled-rejections=strict' -r ts-node/register"
+    "test:specific": "npx nyc mocha --node-flags '--unhandled-rejections=strict' -r ts-node/register",
+    "build": "tsc"
   },
   "dependencies": {
     "axios": "^0.26.0",
