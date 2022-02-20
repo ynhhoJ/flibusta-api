@@ -1920,9 +1920,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"flibusta-api@workspace:.":
+"flibusta@workspace:.":
   version: 0.0.0-use.local
-  resolution: "flibusta-api@workspace:."
+  resolution: "flibusta@workspace:."
   dependencies:
     "@istanbuljs/nyc-config-typescript": ^1.0.2
     "@types/chai": ^4.3.0

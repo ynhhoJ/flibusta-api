@@ -20,6 +20,7 @@
     "target": "ESNext",
 
     "baseUrl": "./src",
+    "outDir": "./build",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "removeComments": true,
@@ -42,10 +43,10 @@
     "paths": {
       "@localTypes/*": ["../types/*"],
       "@src/*": ["./*"],
-      "@utils/*": ["./utils/*"],
+      "@utils/*": ["./utils/*"]
     },
     "plugins": [
-      { "transform": "typescript-transform-paths" },
+      { "transform": "typescript-transform-paths" }
     ]
   },
 }
