@@ -26,7 +26,7 @@
     "example-search-genres": "ts-node ./examples/searchGenres.ts",
     "example-search-genres-paginated": "ts-node ./examples/searchGenresPaginated.ts",
     "test": "npm run test:specific 'tests/**/*.ts'",
-    "test:specific": "npx nyc mocha --node-flags '--unhandled-rejections=strict' -r ts-node/register",
+    "test:specific": "cross-env TS_NODE_PROJECT=\"tsconfig.tests.json\" npx nyc mocha --node-flags '--unhandled-rejections=strict' -r ts-node/register",
     "build": "webpack && yarn copy-types",
     "copy-types": "copyfiles -u 1 types/**/* build/types"
   },
@@ -46,6 +46,7 @@
     "@typescript-eslint/parser": "^5.12.0",
     "chai": "^4.3.6",
     "copyfiles": "^2.4.1",
+    "cross-env": "^7.0.3",
     "eslint": "^8.9.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
