@@ -1,7 +1,7 @@
 {
   "ts-node": {
     "transpileOnly": true,
-    "require": [ "typescript-transform-paths/register" ],
+    "require": [ "typescript-transform-paths/register" ]
   },
   "compilerOptions": {
     "allowJs": false,
@@ -19,8 +19,9 @@
     "strict": true,
     "target": "ESNext",
 
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "outDir": "./build",
+    "declarationDir": "./build/src",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "removeComments": true,
@@ -41,12 +42,14 @@
     "types": ["node"],
 
     "paths": {
-      "@localTypes/*": ["../types/*"],
-      "@src/*": ["./*"],
-      "@utils/*": ["./utils/*"]
+      "@localTypes/*": ["./types/*"],
+      "@src/*": ["./src/*"],
+      "@utils/*": ["./src/utils/*"]
     },
     "plugins": [
       { "transform": "typescript-transform-paths" }
     ]
   },
+  "include": ["src", "types"],
+  "exclude": ["tests", "examples"]
 }
