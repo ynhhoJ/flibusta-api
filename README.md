@@ -80,8 +80,6 @@ yarn example-search-book-by-series-paginated [series name] [page number] [items 
 
 <hr />
 
-<hr />
-
 ### getBooksByNameFromOpds(name)
 * `name` - The name of searched books.
 
