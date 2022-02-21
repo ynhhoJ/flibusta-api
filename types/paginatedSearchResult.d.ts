@@ -1,4 +1,4 @@
-import { Nullable } from '@localTypes/generals';
+import { Nullable } from './generals';
 
 export type PaginatedSearchResult<T> = {
   items: T;

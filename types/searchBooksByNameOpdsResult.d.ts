@@ -1,5 +1,5 @@
-import { Author } from '@localTypes/opdsSearchResult';
-import { Nullable } from '@localTypes/generals';
+import { Author } from './opdsSearchResult';
+import { Nullable } from './generals';
 
 export type Categories = string;
 

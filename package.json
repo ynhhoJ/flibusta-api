@@ -1,12 +1,12 @@
 {
   "name": "flibusta",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "author": "ynhhoJ",
   "description": "Unofficial Flibusta API based on website search engine. If you like to read books - buy",
   "license": "MIT",
   "packageManager": "yarn@3.2.0-rc.15",
-  "main": "build/src/index.js",
-  "types": "./lib/src/index.d.ts",
+  "main": "./build/src/index.js",
+  "types": "./build/src/index.d.ts",
   "files": [
     "build"
   ],
@@ -27,7 +27,8 @@
     "example-search-genres-paginated": "ts-node ./examples/searchGenresPaginated.ts",
     "test": "npm run test:specific 'tests/**/*.ts'",
     "test:specific": "npx nyc mocha --node-flags '--unhandled-rejections=strict' -r ts-node/register",
-    "build": "tsc"
+    "build": "webpack && yarn copy-types",
+    "copy-types": "copyfiles -u 1 types/**/* build/types"
   },
   "dependencies": {
     "axios": "^0.26.0",
@@ -44,6 +45,7 @@
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
     "chai": "^4.3.6",
+    "copyfiles": "^2.4.1",
     "eslint": "^8.9.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -54,9 +56,14 @@
     "eslint-plugin-unicorn": "^41.0.0",
     "mocha": "^9.2.0",
     "nyc": "^15.1.0",
+    "ts-loader": "^9.2.6",
     "ts-node": "^10.5.0",
+    "tscpaths": "^0.0.9",
     "typescript": "^4.5.5",
-    "typescript-transform-paths": "^3.3.1"
+    "typescript-transform-paths": "^3.3.1",
+    "webpack": "^5.69.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-node-externals": "^3.0.0"
   },
   "keywords": [
     "book",

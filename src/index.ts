@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 import GetAuthors from './api/getAuthors';
 import GetBooksByName from './api/getBooksByName';
-import GetBooksByNameOpds from '@src/api/getBooksByNameOpds';
+import GetBooksByNameOpds from './api/getBooksByNameOpds';
 import GetBooksBySeries from './api/getBooksBySeries';
 import GetGenres from './api/getGenres';
 
