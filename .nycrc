@@ -6,7 +6,11 @@
   "exclude": [
     "examples/**/*.ts",
     "types/**/*.d.ts",
-    "tests/**/*.ts"
+    "tests/**/*.ts",
+    "build/**/*.ts",
+    "build/**/*.d.ts",
+    "build/**/*.js",
+    "webpack.config.ts"
   ],
   "excludeNodeModules": true
 }
