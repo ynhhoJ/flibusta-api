@@ -8,7 +8,11 @@ import FlibustaAPI from '@src/index';
 
   const itemsLimitAsInt = Number.parseInt(itemsLimit ?? 50, 10);
   const pageNumberAsInt = Number.parseInt(pageNumber ?? 0, 10);
-  const searchBooksByNameResult = await flibustaApi.getAuthorsOpdsPaginated(authorId, pageNumberAsInt, itemsLimitAsInt);
+  const searchBooksByNameResult = await flibustaApi.getBooksByAuthorOpdsPaginated(
+    authorId,
+    pageNumberAsInt,
+    itemsLimitAsInt,
+  );
 
   console.log(JSON.stringify(searchBooksByNameResult, undefined, 2));
 })();

@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-import GetAuthors from '@src/api/getAuthors';
-import GetAuthorsOpds from './api/getAuthorsOpds';
+import GetAuthors from './api/getAuthors';
+import GetBooksByAuthorOpds from './api/getBooksByAuthorOpds';
 import GetBooksByName from './api/getBooksByName';
 import GetBooksByNameOpds from './api/getBooksByNameOpds';
 import GetBooksBySeries from './api/getBooksBySeries';
@@ -10,7 +10,7 @@ import GetGenres from './api/getGenres';
 class FlibustaAPI {
   private readonly getAuthorsApi: GetAuthors;
 
-  private readonly getAuthorsOpdsApi: GetAuthorsOpds;
+  private readonly getBooksByAuthorOpdsApi: GetBooksByAuthorOpds;
 
   private readonly getBooksByNameApi: GetBooksByName;
 
@@ -27,7 +27,7 @@ class FlibustaAPI {
     });
 
     this.getAuthorsApi = new GetAuthors(axiosInstance);
-    this.getAuthorsOpdsApi = new GetAuthorsOpds(axiosInstance);
+    this.getBooksByAuthorOpdsApi = new GetBooksByAuthorOpds(axiosInstance);
     this.getBooksByNameApi = new GetBooksByName(axiosInstance);
     this.getBooksByNameOpdsApi = new GetBooksByNameOpds(axiosInstance);
     this.getBooksBySeriesApi = new GetBooksBySeries(axiosInstance);
@@ -38,12 +38,12 @@ class FlibustaAPI {
     return this.getAuthorsApi.getAuthors(name);
   }
 
-  getAuthorsOpds(id: number) {
-    return this.getAuthorsOpdsApi.getAuthorsFromOpds(id);
+  getBooksByAuthorOpds(id: number) {
+    return this.getBooksByAuthorOpdsApi.getAuthorsFromOpds(id);
   }
 
-  getAuthorsOpdsPaginated(id: number, page = 0, limit = 50) {
-    return this.getAuthorsOpdsApi.getAuthorsFromOpdsPaginated(id, page, limit);
+  getBooksByAuthorOpdsPaginated(id: number, page = 0, limit = 50) {
+    return this.getBooksByAuthorOpdsApi.getAuthorsFromOpdsPaginated(id, page, limit);
   }
 
   getAuthorsPaginated(name: string, page = 0, limit = 50) {

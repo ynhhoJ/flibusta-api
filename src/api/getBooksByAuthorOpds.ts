@@ -7,7 +7,7 @@ import { SearchBooksByNameOpdsResult } from '@localTypes/searchBooksByNameOpdsRe
 import { OpdsSearchResult } from '@localTypes/opdsSearchResult';
 import { SearchOpdsPaginatedResult } from '@localTypes/searchOpdsResult';
 
-class GetAuthorsOpds extends FlibustaAPIHelper {
+class GetBooksByAuthorOpds extends FlibustaAPIHelper {
   public axiosInstance: AxiosInstance;
 
   constructor(axiosInstance: AxiosInstance) {
@@ -24,7 +24,7 @@ class GetAuthorsOpds extends FlibustaAPIHelper {
     id: number,
     page = 0,
   ): Promise<Nullable<OpdsSearchResult['feed']>> {
-    const url = GetAuthorsOpds.generateGetAuthorsFromOpdsURL(id, page);
+    const url = GetBooksByAuthorOpds.generateGetAuthorsFromOpdsURL(id, page);
     const fetch = await this.getFlibustaOpdsEntry(url);
 
     if (isNil(fetch)) {
@@ -81,4 +81,4 @@ class GetAuthorsOpds extends FlibustaAPIHelper {
   }
 }
 
-export default GetAuthorsOpds;
+export default GetBooksByAuthorOpds;
