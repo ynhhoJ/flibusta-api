@@ -20,8 +20,6 @@
     "target": "ESNext",
 
     "baseUrl": "./",
-    "outDir": "./build",
-    "declarationDir": "./build/src",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "removeComments": true,
@@ -35,7 +33,7 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
 
-    "declaration": true,
+    "declaration": false,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -50,6 +48,4 @@
       { "transform": "typescript-transform-paths" }
     ]
   },
-  "include": ["src", "types"],
-  "exclude": ["tests", "examples"]
 }
