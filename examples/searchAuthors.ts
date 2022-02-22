@@ -1,4 +1,4 @@
-import FlibustaAPI from '../src/index';
+import FlibustaAPI from '@src/index';
 
 (async () => {
   // eslint-disable-next-line unicorn/no-unreadable-array-destructuring

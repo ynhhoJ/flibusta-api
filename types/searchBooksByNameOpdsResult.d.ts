@@ -8,6 +8,7 @@ export type Downloads = {
   type: string;
 };
 
+// TODO: Rename to more common type
 export type SearchBooksByNameOpdsResult = {
   author: Array<Author>;
   title: string;

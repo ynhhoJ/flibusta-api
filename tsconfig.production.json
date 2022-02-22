@@ -20,6 +20,8 @@
     "target": "ESNext",
 
     "baseUrl": "./",
+    "outDir": "./build",
+    "declarationDir": "./build/src",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "removeComments": true,
@@ -33,7 +35,7 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
 
-    "declaration": false,
+    "declaration": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

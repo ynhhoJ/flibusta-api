@@ -49,6 +49,121 @@ yarn example-search-book-by-series-paginated [series name] [page number] [items 
 
 ## API
 
+### getBooksByAuthorOpds(id)
+* `id` - The id of author
+
+##### Example
+`getBooksByAuthorOpds(6116)`
+
+##### Response
+<details>
+  <summary>Response</summary>
+
+```json
+[
+  {
+    "author": [
+      {
+        "name": "Конан Дойль Артур",
+        "uri": "/a/6116"
+      }
+    ],
+    "title": "«Глория Скотт»",
+    "updated": "2022-02-22T08:35:39+01:00",
+    "categories": [
+      "Классический детектив"
+    ],
+    "cover": "/i/0/214600/cover.jpg",
+    "downloads": [
+      {
+        "link": "/b/214600/fb2",
+        "type": "application/fb2+zip"
+      },
+      {
+        "link": "/b/214600/html",
+        "type": "application/html+zip"
+      },
+      {
+        "link": "/b/214600/txt",
+        "type": "application/txt+zip"
+      },
+      {
+        "link": "/b/214600/rtf",
+        "type": "application/rtf+zip"
+      },
+      {
+        "link": "/b/214600/mobi",
+        "type": "application/x-mobipocket-ebook"
+      }
+    ],
+    "description": "<p class=book>Куда исчез фаворит предстоящих скачек жеребец Серебряный и кто убил его тренера? Кто пытается разлучить счастливых супругов Мунро и что за ужасное лицо появляется в окне соседнего дома? В какую аферу оказался вовлечен незадачливый биржевой маклер? И что делали таинственные гости из России в комнате пациента доктора Тревельяна? На эти вопросы берется ответить знаменитый Шерлок Холмс... </p>\n   <br/>Перевод: Любимова Галина<br/>Формат: fb2<br/>Язык: ru<br/>Размер: 62 Kb<br/>Скачиваний: 8387<br/>Серия: Рассказы о Шерлоке Холмсе — 2. Записки о Шерлоке Холмсе #4<br/>"
+  },
+  ...
+]
+```
+</details>
+
+### getBooksByAuthorOpdsPaginated(id)
+* `id` - The id of author
+* `page?` - Optional to get books by name for page. By default `0`.
+* `limit?` - Optional. Limit rows count in `items`. By default `20`.
+
+##### Example
+`getBooksByAuthorOpdsPaginated(6116)`
+
+##### Response
+<details>
+  <summary>Response</summary>
+
+```json
+{
+  "items": [
+    {
+      "author": [
+        {
+          "name": "Конан Дойль Артур",
+          "uri": "/a/6116"
+        }
+      ],
+      "title": "«Глория Скотт»",
+      "updated": "2022-02-22T08:35:39+01:00",
+      "categories": [
+        "Классический детектив"
+      ],
+      "cover": "/i/0/214600/cover.jpg",
+      "downloads": [
+        {
+          "link": "/b/214600/fb2",
+          "type": "application/fb2+zip"
+        },
+        {
+          "link": "/b/214600/html",
+          "type": "application/html+zip"
+        },
+        {
+          "link": "/b/214600/txt",
+          "type": "application/txt+zip"
+        },
+        {
+          "link": "/b/214600/rtf",
+          "type": "application/rtf+zip"
+        },
+        {
+          "link": "/b/214600/mobi",
+          "type": "application/x-mobipocket-ebook"
+        }
+      ],
+      "description": "<p class=book>Куда исчез фаворит предстоящих скачек жеребец Серебряный и кто убил его тренера? Кто пытается разлучить счастливых супругов Мунро и что за ужасное лицо появляется в окне соседнего дома? В какую аферу оказался вовлечен незадачливый биржевой маклер? И что делали таинственные гости из России в комнате пациента доктора Тревельяна? На эти вопросы берется ответить знаменитый Шерлок Холмс... </p>\n   <br/>Перевод: Любимова Галина<br/>Формат: fb2<br/>Язык: ru<br/>Размер: 62 Kb<br/>Скачиваний: 8387<br/>Серия: Рассказы о Шерлоке Холмсе — 2. Записки о Шерлоке Холмсе #4<br/>"
+    },
+    ...
+  ],
+  "currentPage": 0,
+  "hasNextPage": true,
+  "hasPreviousPage": false
+}
+```
+</details>
+
 ### getBooksByName(name)
 * `name` - The name of searched books.
 
