@@ -1,7 +1,7 @@
 import 'mocha';
 import { expect, should } from 'chai';
 import axios, { AxiosInstance } from 'axios';
-import { isBoolean, isNil, isNumber, isString } from 'lodash';
+import { isBoolean, isNil, isString } from 'lodash';
 
 import FlibustaOpdsApiHelper from '@src/flibustaOpdsApiHelper';
 import { OpdsSearchResult } from '@localTypes/opdsSearchResult';
@@ -88,34 +88,6 @@ describe('FlibustaOpdsApiHelper', () => {
     });
   });
 
-  describe('getTotalPagesCount()', () => {
-    it('should return correct values', () => {
-      let totalResults = 200;
-      let pageIndex = 2;
-      let result = flibustaOpdsApiHelper.hasNextPage(totalResults, pageIndex);
-
-      expect(result).to.be.equal(true);
-
-      totalResults = 50;
-      pageIndex = 2;
-      result = flibustaOpdsApiHelper.hasNextPage(totalResults, pageIndex);
-
-      expect(result).to.be.equal(true);
-
-      totalResults = 10;
-      pageIndex = 3;
-      result = flibustaOpdsApiHelper.hasNextPage(totalResults, pageIndex);
-
-      expect(result).to.be.equal(false);
-
-      totalResults = 1;
-      pageIndex = 1;
-      result = flibustaOpdsApiHelper.hasNextPage(totalResults, pageIndex);
-
-      expect(result).to.be.equal(false);
-    });
-  });
-
   describe('hasPreviousPage()', () => {
     it('should return correct values', () => {
       let pageIndex = 1;
@@ -138,7 +110,8 @@ describe('FlibustaOpdsApiHelper', () => {
   describe('getCurrentOpdsPageInformation()', () => {
     it('should return correct page information', async () => {
       const name = 'Шерлок';
-      const url = `opds/opensearch?searchTerm=${encodeURIComponent(name)}&searchType=books&pageNumber=0`;
+      const page = 0;
+      const url = `opds/opensearch?searchTerm=${encodeURIComponent(name)}&searchType=books&pageNumber=${page}`;
       const result = await flibustaOpdsApiHelper.getFlibustaOpdsEntry(url);
 
       if (isNil(result)) {
@@ -146,11 +119,10 @@ describe('FlibustaOpdsApiHelper', () => {
       }
 
       const { feed } = result;
-      const pageInformation = flibustaOpdsApiHelper.getCurrentOpdsPageInformation(feed);
+      const pageInformation = flibustaOpdsApiHelper.getCurrentOpdsPageInformation(feed, page);
 
       expect(pageInformation).to.satisfy(
-        (item: PagesInformation) => isNumber(item.totalPages)
-              && isBoolean(item.hasNextPage)
+        (item: PagesInformation) => isBoolean(item.hasNextPage)
               && isBoolean(item.hasPreviousPage),
       );
     });
