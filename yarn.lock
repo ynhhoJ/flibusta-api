@@ -555,6 +555,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/webpack-node-externals@npm:^2.5.3":
+  version: 2.5.3
+  resolution: "@types/webpack-node-externals@npm:2.5.3"
+  dependencies:
+    "@types/node": "*"
+    webpack: ^5
+  checksum: 9cd0f7821d4a322479ef3264f82192ec62d582e7505b28af1d3e352be8ec98fd8432edc4184c2644caa5f75de88266edf5b45661e9be766cb6ae54b0c484636b
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/eslint-plugin@npm:^5.12.1":
   version: 5.12.1
   resolution: "@typescript-eslint/eslint-plugin@npm:5.12.1"
@@ -2626,6 +2636,7 @@ __metadata:
     "@types/lodash": ^4.14.178
     "@types/mocha": ^9.1.0
     "@types/node": ^17.0.19
+    "@types/webpack-node-externals": ^2.5.3
     "@typescript-eslint/eslint-plugin": ^5.12.1
     "@typescript-eslint/parser": ^5.12.1
     axios: ^0.26.0
@@ -6032,7 +6043,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.69.1":
+"webpack@npm:^5, webpack@npm:^5.69.1":
   version: 5.69.1
   resolution: "webpack@npm:5.69.1"
   dependencies:
