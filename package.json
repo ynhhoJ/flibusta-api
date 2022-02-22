@@ -16,6 +16,8 @@
   },
   "scripts": {
     "example-search-authors": "ts-node ./examples/searchAuthors.ts",
+    "example-search-authors-opds": "ts-node ./examples/searchAuthorsOpds.ts",
+    "example-search-authors-opds-paginated": "ts-node ./examples/searchAuthorsOpdsPaginated.ts",
     "example-search-authors-paginated": "ts-node ./examples/searchAuthorsPaginated.ts",
     "example-search-book-by-name": "ts-node ./examples/searchBooksByName.ts",
     "example-search-book-by-name-opds": "ts-node ./examples/searchBooksByNameFromOpds.ts",
@@ -26,7 +28,7 @@
     "example-search-genres": "ts-node ./examples/searchGenres.ts",
     "example-search-genres-paginated": "ts-node ./examples/searchGenresPaginated.ts",
     "test": "npm run test:specific 'tests/**/*.ts'",
-    "test:specific": "cross-env TS_NODE_PROJECT=\"tsconfig.tests.json\" npx nyc mocha --timeout 5000 --node-flags '--unhandled-rejections=strict' -r ts-node/register",
+    "test:specific": "npx nyc mocha --timeout 5000 --node-flags '--unhandled-rejections=strict' -r ts-node/register",
     "build": "webpack && yarn copy-types",
     "copy-types": "copyfiles -u 1 types/**/* build/types"
   },
