@@ -6,8 +6,11 @@ import { Nullable } from '@localTypes/generals';
 import { SearchBooksByNameOpdsResult } from '@localTypes/searchBooksByNameOpdsResult';
 import { OpdsSearchResult } from '@localTypes/opdsSearchResult';
 import { PaginatedSearchResult } from '@localTypes/paginatedSearchResult';
+import { PagesInformation } from '@localTypes/pagesInformation';
 
 class GetBooksByNameOpds extends FlibustaAPIHelper {
+  private static ITEMS_PER_PAGE = 20;
+
   public axiosInstance: AxiosInstance;
 
   constructor(axiosInstance: AxiosInstance) {
@@ -18,6 +21,13 @@ class GetBooksByNameOpds extends FlibustaAPIHelper {
 
   private static generateGetBooksByNameFromOpdsURL(name: string, page: number) {
     return `opds/opensearch?searchTerm=${encodeURIComponent(name)}&searchType=books&pageNumber=${page}`;
+  }
+
+  private static hasSearchOpdsNextPage(
+    totalResults: OpdsSearchResult['feed']['os:totalResults'],
+    currentPageIndex: OpdsSearchResult['feed']['os:itemsPerPage'],
+  ): boolean {
+    return (currentPageIndex + GetBooksByNameOpds.ITEMS_PER_PAGE) < totalResults;
   }
 
   private async fetchBooksByNameFromOpds(
@@ -34,6 +44,21 @@ class GetBooksByNameOpds extends FlibustaAPIHelper {
     const { feed } = fetch;
 
     return feed;
+  }
+
+  private getCurrentSearchOpdsPageInformation(feed: OpdsSearchResult['feed']): PagesInformation {
+    const totalResults = feed['os:totalResults'];
+    const itemsPerPage = feed['os:itemsPerPage'];
+    const currentPageIndex = feed['os:startIndex'];
+    const hasNextPage = GetBooksByNameOpds.hasSearchOpdsNextPage(totalResults, currentPageIndex);
+    const hasPreviousPage = this.hasPreviousPage(currentPageIndex);
+    const totalPages = this.getTotalPagesCount(totalResults, itemsPerPage);
+
+    return {
+      hasNextPage,
+      hasPreviousPage,
+      totalPages,
+    };
   }
 
   public async getBooksByNameFromOpds(name: string): Promise<Nullable<Array<SearchBooksByNameOpdsResult>>> {
@@ -71,7 +96,7 @@ class GetBooksByNameOpds extends FlibustaAPIHelper {
 
     const slicedEntryToLimit = entry.slice(0, limit);
     const items = this.prepareResponseFromOpdsEntry(slicedEntryToLimit);
-    const pages = this.getCurrentOpdsPageInformation(feed);
+    const pages = this.getCurrentSearchOpdsPageInformation(feed);
     const totalCountItems = feed['os:totalResults'];
 
     return {

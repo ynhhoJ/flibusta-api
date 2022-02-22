@@ -2,6 +2,7 @@ import { AxiosInstance } from 'axios';
 import { XMLParser } from 'fast-xml-parser';
 import { isArray, isNil, round } from 'lodash';
 
+import { SearchOpdsPagesInformation } from '@localTypes/searchOpdsResult';
 import { Nullable } from '@localTypes/generals';
 // eslint-disable-next-line object-curly-newline
 import {
@@ -12,11 +13,8 @@ import {
   OpdsLinkType,
   OpdsSearchResult } from '@localTypes/opdsSearchResult';
 import { Categories, Downloads, SearchBooksByNameOpdsResult } from '@localTypes/searchBooksByNameOpdsResult';
-import { PagesInformation } from '@localTypes/pagesInformation';
 
 class FlibustaOpdsApiHelper {
-  private static ITEMS_PER_PAGE = 20;
-
   private static FlibustaFileMIMETypesToDownload = new Set([
     'application/epub',
     'application/fb2+zip',
@@ -99,28 +97,26 @@ class FlibustaOpdsApiHelper {
   }
 
   public hasNextPage(
-    totalResults: OpdsSearchResult['feed']['os:totalResults'],
-    currentPageIndex: OpdsSearchResult['feed']['os:itemsPerPage'],
+    feedLink: OpdsSearchResult['feed']['link'],
   ): boolean {
-    return (currentPageIndex + FlibustaOpdsApiHelper.ITEMS_PER_PAGE) < totalResults;
+    return feedLink.some((link) => link['@_rel'] === 'next');
   }
 
   public hasPreviousPage(currentPageIndex: OpdsSearchResult['feed']['os:startIndex']): boolean {
     return !(currentPageIndex <= 0);
   }
 
-  public getCurrentOpdsPageInformation(feed: OpdsSearchResult['feed']): PagesInformation {
-    const totalResults = feed['os:totalResults'];
-    const itemsPerPage = feed['os:itemsPerPage'];
-    const currentPageIndex = feed['os:startIndex'];
-    const hasNextPage = this.hasNextPage(totalResults, currentPageIndex);
+  public getCurrentOpdsPageInformation(
+    feed: OpdsSearchResult['feed'],
+    currentPageIndex: number,
+  ): SearchOpdsPagesInformation {
+    const feedLink = feed.link;
+    const hasNextPage = this.hasNextPage(feedLink);
     const hasPreviousPage = this.hasPreviousPage(currentPageIndex);
-    const totalPages = this.getTotalPagesCount(totalResults, itemsPerPage);
 
     return {
       hasNextPage,
       hasPreviousPage,
-      totalPages,
     };
   }
 
