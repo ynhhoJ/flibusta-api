@@ -18,6 +18,7 @@
     "example-search-authors": "ts-node ./examples/searchAuthors.ts",
     "example-search-books-authors-opds": "ts-node ./examples/getBooksByAuthorOpds.ts",
     "example-search-books-author-opds-paginated": "ts-node ./examples/getBooksByAuthorOpdsPaginated.ts",
+    "example-search-cover-by-book-id": "ts-node ./examples/getCoverByBookId.ts",
     "example-search-authors-paginated": "ts-node ./examples/searchAuthorsPaginated.ts",
     "example-search-book-by-name": "ts-node ./examples/searchBooksByName.ts",
     "example-search-book-by-name-opds": "ts-node ./examples/searchBooksByNameFromOpds.ts",
