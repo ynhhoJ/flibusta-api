@@ -467,6 +467,23 @@ yarn example-search-book-by-series-paginated [series name] [page number] [items 
 
 <hr />
 
+### getCoverByBookId(id)
+* `id` - The book id
+
+##### Example
+`getCoverByBookId(226302)`
+
+##### Response
+<details>
+    <summary>Response</summary>
+
+```
+File blob
+```
+</details>
+
+<hr />
+
 ### getGenres(name)
 * `name` - The name of searched genre.
 
