@@ -78,7 +78,7 @@ class FlibustaAPI {
     return this.getBooksBySeriesApi.getBooksBySeriesPaginated(name, page, limit);
   }
 
-  getCoverByBookId(id: number) {
+  async getCoverByBookId(id: number) {
     return this.getCoverByBookIdApi.getCoverByBookId(id);
   }
 
