@@ -342,6 +342,30 @@ describe('FlibustaAPI', () => {
       });
     });
   });
+  
+  describe('GetCoverBookById', () => {
+    describe('fetchCoverByUrl()', () => {
+      it('should return jpg file', async () => {
+        const coverByBookId = await flibustaApi.getCoverByBookId(402_475);
+        
+        // TODO: Should be rewritten to check if file was returned correctly
+        expect(coverByBookId).to.satisfy((cover: File) => !isNil(cover));
+      });
+      
+      it('should return png file', async () => {
+        const coverByBookId = await flibustaApi.getCoverByBookId(226_302);
+        
+        // TODO: Should be rewritten to check if file was returned correctly
+        expect(coverByBookId).to.satisfy((cover: File) => !isNil(cover));
+      });
+      
+      it('should return undefined', async () => {
+        const coverByBookId = await flibustaApi.getCoverByBookId(Number.POSITIVE_INFINITY);
+        
+        expect(coverByBookId).to.be.equal(undefined);
+      });
+    });
+  });
 
   describe('getGenres', () => {
     describe('getGenres()', async () => {

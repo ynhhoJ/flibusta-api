@@ -5,6 +5,7 @@ import GetBooksByAuthorOpds from './api/getBooksByAuthorOpds';
 import GetBooksByName from './api/getBooksByName';
 import GetBooksByNameOpds from './api/getBooksByNameOpds';
 import GetBooksBySeries from './api/getBooksBySeries';
+import GetCoverByBookId from '@src/api/getCoverByBookId';
 import GetGenres from './api/getGenres';
 
 class FlibustaAPI {
@@ -17,6 +18,8 @@ class FlibustaAPI {
   private readonly getBooksByNameOpdsApi: GetBooksByNameOpds;
 
   private readonly getBooksBySeriesApi: GetBooksBySeries;
+
+  private readonly getCoverByBookIdApi: GetCoverByBookId;
 
   private readonly getGenresApi: GetGenres;
 
@@ -31,54 +34,59 @@ class FlibustaAPI {
     this.getBooksByNameApi = new GetBooksByName(axiosInstance);
     this.getBooksByNameOpdsApi = new GetBooksByNameOpds(axiosInstance);
     this.getBooksBySeriesApi = new GetBooksBySeries(axiosInstance);
+    this.getCoverByBookIdApi = new GetCoverByBookId(axiosInstance);
     this.getGenresApi = new GetGenres(axiosInstance);
   }
 
-  getAuthors(name: string) {
+  async getAuthors(name: string) {
     return this.getAuthorsApi.getAuthors(name);
   }
 
-  getBooksByAuthorOpds(id: number) {
+  async getBooksByAuthorOpds(id: number) {
     return this.getBooksByAuthorOpdsApi.getAuthorsFromOpds(id);
   }
 
-  getBooksByAuthorOpdsPaginated(id: number, page = 0, limit = 50) {
+  async getBooksByAuthorOpdsPaginated(id: number, page = 0, limit = 50) {
     return this.getBooksByAuthorOpdsApi.getAuthorsFromOpdsPaginated(id, page, limit);
   }
 
-  getAuthorsPaginated(name: string, page = 0, limit = 50) {
+  async getAuthorsPaginated(name: string, page = 0, limit = 50) {
     return this.getAuthorsApi.getAuthorsPaginated(name, page, limit);
   }
 
-  getBooksByName(name: string) {
+  async getBooksByName(name: string) {
     return this.getBooksByNameApi.getBooksByName(name);
   }
 
-  getBooksByNameFromOpds(name: string) {
+  async getBooksByNameFromOpds(name: string) {
     return this.getBooksByNameOpdsApi.getBooksByNameFromOpds(name);
   }
 
-  getBooksByNameFromOpdsPaginated(name: string, page = 0, limit = 20) {
+  async getBooksByNameFromOpdsPaginated(name: string, page = 0, limit = 20) {
     return this.getBooksByNameOpdsApi.getBooksByNameFromOpdsPaginated(name, page, limit);
   }
 
-  getBooksByNamePaginated(name: string, page = 0, limit = 50) {
+  async getBooksByNamePaginated(name: string, page = 0, limit = 50) {
     return this.getBooksByNameApi.getBooksByNamePaginated(name, page, limit);
   }
 
-  getBooksBySeries(name: string) {
+  async getBooksBySeries(name: string) {
     return this.getBooksBySeriesApi.getBooksBySeries(name);
   }
 
-  getBooksBySeriesPaginated(name: string, page = 0, limit = 50) {
+  async getBooksBySeriesPaginated(name: string, page = 0, limit = 50) {
     return this.getBooksBySeriesApi.getBooksBySeriesPaginated(name, page, limit);
   }
 
-  getGenres(name: string) {
+  getCoverByBookId(id: number) {
+    return this.getCoverByBookIdApi.getCoverByBookId(id);
+  }
+
+  async getGenres(name: string) {
     return this.getGenresApi.getGenres(name);
   }
 
-  getGenresPaginated(name: string, page = 0, limit = 50) {
+  async getGenresPaginated(name: string, page = 0, limit = 50) {
     return this.getGenresApi.getGenresPaginated(name, page, limit);
   }
 }
