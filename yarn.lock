@@ -541,10 +541,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^17.0.19":
+"@types/node@npm:*":
   version: 17.0.19
   resolution: "@types/node@npm:17.0.19"
   checksum: 6bbd35bfc23dd50d1aefd4ae49c31f7fd632be209dba67c0322bb4fe8b555f4bb6e894018963146ad7758ae596857d5cbecc2d46ddf90a54f6a4424811cf4351
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^17.0.20":
+  version: 17.0.20
+  resolution: "@types/node@npm:17.0.20"
+  checksum: 50cdbd3c4c93f117f95e7c11ee28540f388500d6496e9efc8610f7e27839cb1fcf6c2479cac1dcd00fcc4658029a41201cc3294ae0d42e24ffcc71477a44191c
   languageName: node
   linkType: hard
 
@@ -2635,7 +2642,7 @@ __metadata:
     "@types/chai": ^4.3.0
     "@types/lodash": ^4.14.178
     "@types/mocha": ^9.1.0
-    "@types/node": ^17.0.19
+    "@types/node": ^17.0.20
     "@types/webpack-node-externals": ^2.5.3
     "@typescript-eslint/eslint-plugin": ^5.12.1
     "@typescript-eslint/parser": ^5.12.1
