@@ -1,8 +1,11 @@
 import 'mocha';
 import { expect, should } from 'chai';
 import axios from 'axios';
+import { isBoolean, isNil, isNumber } from 'lodash';
 
 import GetBooksBySeries from '@src/api/getBooksBySeries';
+import BookSeries from '@localTypes/bookSeries';
+import { PaginatedSearchResult } from '@localTypes/paginatedSearchResult';
 
 should();
 
@@ -17,11 +20,15 @@ describe('getBooksBySeries', () => {
       const name = 'Ведьмак. Последнее желание';
       const booksSeriesResultList = await getBooksBySeriesApi.getBooksBySeries(name);
 
-      return expect(booksSeriesResultList).to.be.deep.equal([{
-        books: 5,
-        id: 49_672,
-        name,
-      }]);
+      if (isNil(booksSeriesResultList)) {
+        return;
+      }
+
+      booksSeriesResultList.forEach((bookSeries) => {
+        expect(bookSeries.books).to.satisfy((books: BookSeries['books']) => isNumber(books));
+        expect(bookSeries.id).to.satisfy((id: BookSeries['id']) => isNumber(id));
+        expect(bookSeries.name).to.satisfy((bookSeriesName: BookSeries['name']) => bookSeriesName === name);
+      });
     });
   });
 
@@ -30,18 +37,34 @@ describe('getBooksBySeries', () => {
       const name = 'Ведьмак. Последнее желание';
       const booksSeriesResultList = await getBooksBySeriesApi.getBooksBySeriesPaginated(name);
 
-      return expect(booksSeriesResultList).to.be.deep.equal({
-        items: [{
-          books: 5,
-          id: 49_672,
-          name,
-        }],
-        currentPage: 0,
-        totalCountItems: 1,
-        totalPages: 1,
-        hasPreviousPage: false,
-        hasNextPage: false,
+      if (isNil(booksSeriesResultList)) {
+        return;
+      }
+
+      // eslint-disable-next-line
+      booksSeriesResultList.items.forEach((bookSeries) => {
+        expect(bookSeries.books).to.satisfy((books: BookSeries['books']) => isNumber(books));
+        expect(bookSeries.id).to.satisfy((id: BookSeries['id']) => isNumber(id));
+        expect(bookSeries.name).to.satisfy((bookSeriesName: BookSeries['name']) => bookSeriesName === name);
       });
+
+      expect(booksSeriesResultList.currentPage).to.satisfy(
+        (currentPage: PaginatedSearchResult<BookSeries>['currentPage']) => isNumber(currentPage),
+      );
+      expect(booksSeriesResultList.hasNextPage).to.satisfy(
+        (hasNextPage: PaginatedSearchResult<BookSeries>['hasNextPage']) => isBoolean(hasNextPage),
+      );
+      expect(booksSeriesResultList.hasPreviousPage).to.satisfy(
+        (hasPreviousPage: PaginatedSearchResult<BookSeries>['hasPreviousPage']) => isBoolean(hasPreviousPage),
+      );
+      expect(booksSeriesResultList.totalCountItems).to.satisfy(
+        (
+          totalCountItems: PaginatedSearchResult<BookSeries>['totalCountItems'],
+        ) => isNil(totalCountItems) || isNumber(totalCountItems),
+      );
+      expect(booksSeriesResultList.totalPages).to.satisfy(
+        (totalPages: PaginatedSearchResult<BookSeries>['totalPages']) => isNumber(totalPages),
+      );
     });
   });
 });
