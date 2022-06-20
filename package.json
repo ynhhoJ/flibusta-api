@@ -29,7 +29,7 @@
     "example-search-genres": "ts-node ./examples/searchGenres.ts",
     "example-search-genres-paginated": "ts-node ./examples/searchGenresPaginated.ts",
     "test": "npm run test:specific 'tests/**/*.ts'",
-    "test:specific": "npx nyc mocha --timeout 5000 --node-flags '--unhandled-rejections=strict' -r ts-node/register",
+    "test:specific": "npx nyc mocha --timeout 15000 --node-flags '--unhandled-rejections=strict' -r ts-node/register",
     "build": "webpack && yarn copy-types",
     "copy-types": "copyfiles -u 1 types/**/* build/types"
   },
