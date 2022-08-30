@@ -23,7 +23,10 @@ class FlibustaAPI {
 
   private readonly getGenresApi: GetGenres;
 
-  constructor(flibustaBaseURL = 'http://flibusta.is/', axiosConfig?: AxiosRequestConfig) {
+  constructor(flibustaBaseURL = 'http://flibusta.is', axiosConfig?: AxiosRequestConfig, isOnion?: boolean) {
+    flibustaBaseURL = isOnion ? 'http://flibustaongezhld6dibs2dps6vm4nvqg2kp7vgowbu76tzopgnhazqd.onion'
+      : flibustaBaseURL;
+
     const axiosInstance = axios.create({
       baseURL: flibustaBaseURL,
       ...axiosConfig,
