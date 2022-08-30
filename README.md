@@ -587,3 +587,30 @@ File blob
 }
 ```
 </details>
+
+## Onion Support
+
+Thanks [antis11](https://github.com/antiss11) for an example
+
+<details>
+    <summary>Example</summary>
+
+```js
+import { SocksProxyAgent } from 'socks-proxy-agent';
+
+import FlibustaAPI from 'flibusta';
+
+(async () => {
+  // eslint-disable-next-line unicorn/no-unreadable-array-destructuring
+  const [/* original value */, /* path to the file */, authorName] = process.argv;
+
+  const flibustaApi = new FlibustaAPI('http://flibustaongezhld6dibs2dps6vm4nvqg2kp7vgowbu76tzopgnhazqd.onion', {
+    httpAgent: new SocksProxyAgent('socks5h://127.0.0.1:9050'),
+  });
+
+  const searchAuthorsResult = await flibustaApi.getAuthors(authorName);
+  
+  console.log(JSON.stringify(searchAuthorsResult, undefined, 2));
+})();
+```
+</details>
