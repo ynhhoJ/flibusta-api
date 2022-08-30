@@ -9,7 +9,8 @@
 <hr/>
 
 ## NPM
-Flibsta API is available as a (npm packages)[https://www.npmjs.com/package/flibusta]
+Flibsta API is available as a [npm packages](https://www.npmjs.com/package/flibusta)
+
 Use `yarn add flibusta` or `npm install flibusta`
 
 ## Examples
