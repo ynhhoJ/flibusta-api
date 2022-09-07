@@ -54,7 +54,6 @@ class FlibustaOpdsApiHelper {
       || link['@_type'] === 'image/png',
     );
 
-
     if (isNil(result)) {
       return undefined;
     }
@@ -127,16 +126,14 @@ class FlibustaOpdsApiHelper {
   public async getFlibustaOpdsEntry(url: string): Promise<Nullable<OpdsSearchResult>> {
     return this.axiosInstance.get<string>(url)
       .then((response) => {
-        // const parsingOptions = {
-        //   ignoreAttributes: false,
-        //   unpairedTags: ['hr', 'br', 'link', 'meta'],
-        //   stopNodes: ['*.pre', '*.script'],
-        //   processEntities: true,
-        //   htmlEntities: true,
-        // };
-        const parser = new XMLParser({});
-        console.log(response.data);
-        // return new Promise(res => res(1));
+        const parsingOptions = {
+          ignoreAttributes: false,
+          unpairedTags: ['hr', 'br', 'link', 'meta'],
+          stopNodes: ['*.pre', '*.script'],
+          processEntities: true,
+          htmlEntities: true,
+        };
+        const parser = new XMLParser(parsingOptions);
 
         return parser.parse(response.data);
       })
