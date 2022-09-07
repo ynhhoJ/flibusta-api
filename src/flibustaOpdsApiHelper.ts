@@ -49,7 +49,10 @@ class FlibustaOpdsApiHelper {
       return undefined;
     }
 
-    const result = links.find((link) => link['@_type'] === 'image/jpeg');
+    const result = links.find(
+      (link) => link['@_type'] === 'image/jpeg'
+      || link['@_type'] === 'image/png',
+    );
 
     if (isNil(result)) {
       return undefined;
