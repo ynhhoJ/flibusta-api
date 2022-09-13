@@ -67,7 +67,6 @@ class FlibustaOpdsApiHelper {
   }
 
   private static getDownloadsItemList(links: Array<OpdsLinkType>): Array<Downloads> {
-    console.log(links);
     const { FlibustaFileMIMETypesToDownload } = FlibustaOpdsApiHelper;
     const result = links.filter((link) => FlibustaFileMIMETypesToDownload.has(link['@_type']));
 
