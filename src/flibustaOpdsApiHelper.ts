@@ -27,6 +27,7 @@ class FlibustaOpdsApiHelper {
     'application/djvu',
     'application/msword',
     'application/x-rar-compressed',
+    'application/pdf',
   ]);
 
   private static getAuthorsFromOpdsEntry(authors: OpdsEntryAuthor): Array<Author> {
@@ -66,6 +67,7 @@ class FlibustaOpdsApiHelper {
   }
 
   private static getDownloadsItemList(links: Array<OpdsLinkType>): Array<Downloads> {
+    console.log(links);
     const { FlibustaFileMIMETypesToDownload } = FlibustaOpdsApiHelper;
     const result = links.filter((link) => FlibustaFileMIMETypesToDownload.has(link['@_type']));
 
