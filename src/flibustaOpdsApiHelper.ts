@@ -24,6 +24,10 @@ class FlibustaOpdsApiHelper {
     'application/txt+zip',
     'application/x-mobipocket-ebook',
     'application/pdf+zip',
+    'application/djvu',
+    'application/msword',
+    'application/x-rar-compressed',
+    'application/pdf',
   ]);
 
   private static getAuthorsFromOpdsEntry(authors: OpdsEntryAuthor): Array<Author> {
