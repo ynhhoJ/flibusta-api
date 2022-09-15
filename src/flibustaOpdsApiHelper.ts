@@ -141,13 +141,7 @@ class FlibustaOpdsApiHelper {
         const parser = new XMLParser(parsingOptions);
 
         return parser.parse(response.data);
-      })
-      .catch((error) => {
-        console.log(`[API] ERROR: ${error}`);
-
-        // eslint-disable-next-line unicorn/no-null
-        return null;
-      });
+      }).catch((error) => error);
   }
 }
 

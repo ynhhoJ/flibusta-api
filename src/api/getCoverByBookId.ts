@@ -19,8 +19,7 @@ class GetCoverByBookId {
   private async fetchImageByTypeUrl(url: string): Promise<Nullable<File>> {
     return this.axiosInstance.get<File>(url, {})
       .then((response) => response.data)
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      .catch(() => undefined);
+      .catch((error) => error);
   }
 
   private async fetchCoverByUrl(id: number): Promise<Nullable<File>> {

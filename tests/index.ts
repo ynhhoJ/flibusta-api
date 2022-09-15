@@ -8,6 +8,7 @@ import { SearchBooksByNameOpdsResult } from '@localTypes/searchBooksByNameOpdsRe
 import { PaginatedSearchResult } from '@localTypes/paginatedSearchResult';
 import {Genres} from "@localTypes/genres";
 import AuthorBooks from "@localTypes/authorsBook";
+import axios from 'axios';
 
 should();
 
@@ -392,10 +393,10 @@ describe('FlibustaAPI', () => {
         expect(coverByBookId).to.satisfy((cover: File) => !isNil(cover));
       });
       
-      it('should return undefined', async () => {
+      it('should return axios error', async () => {
         const coverByBookId = await flibustaApi.getCoverByBookId(Number.POSITIVE_INFINITY);
-        
-        expect(coverByBookId).to.be.equal(undefined);
+
+        expect(axios.isAxiosError(coverByBookId)).to.be.equal(true);
       });
     });
   });
