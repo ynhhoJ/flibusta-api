@@ -141,7 +141,9 @@ class FlibustaOpdsApiHelper {
         const parser = new XMLParser(parsingOptions);
 
         return parser.parse(response.data);
-      }).catch((error) => error);
+      }).catch((error) => {
+        throw error;
+      });
   }
 }
 

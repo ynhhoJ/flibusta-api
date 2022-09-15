@@ -65,7 +65,9 @@ abstract class FlibustaAPIHelper extends FlibustaOpdsApiHelper {
   public async getFlibustaHTMLPage(url: string): Promise<HTMLElement | null> {
     return this.axiosInstance.get<string>(url)
       .then((response) => parse(response.data).querySelector('#main'))
-      .catch((error) => error);
+      .catch((error) => {
+        throw error;
+      });
   }
 
   public getInformationOfBookOrAuthor(node: HTMLElement): Author;

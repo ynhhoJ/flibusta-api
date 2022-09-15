@@ -19,7 +19,9 @@ class GetCoverByBookId {
   private async fetchImageByTypeUrl(url: string): Promise<Nullable<File>> {
     return this.axiosInstance.get<File>(url, {})
       .then((response) => response.data)
-      .catch((error) => error);
+      .catch((error) => {
+        throw error;
+      });
   }
 
   private async fetchCoverByUrl(id: number): Promise<Nullable<File>> {
@@ -27,14 +29,16 @@ class GetCoverByBookId {
     const yAsString = idAsString.slice(4);
     const y = Number.parseInt(yAsString, 10);
     const jpgImageUrl = GetCoverByBookId.generateCoverUrl(id, y, 'jpg');
-    const jpgImage = await this.fetchImageByTypeUrl(jpgImageUrl);
+    // eslint-disable-next-line unicorn/no-useless-undefined
+    const jpgImage = await this.fetchImageByTypeUrl(jpgImageUrl).catch(() => undefined);
 
     if (!isNil(jpgImage)) {
       return jpgImage;
     }
 
     const pngImageUrl = GetCoverByBookId.generateCoverUrl(id, y, 'png');
-    const pngImage = await this.fetchImageByTypeUrl(pngImageUrl);
+    // eslint-disable-next-line unicorn/no-useless-undefined
+    const pngImage = await this.fetchImageByTypeUrl(pngImageUrl).catch(() => undefined);
 
     if (!isNil(pngImage)) {
       return pngImage;
