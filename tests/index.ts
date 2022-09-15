@@ -394,9 +394,9 @@ describe('FlibustaAPI', () => {
       });
       
       it('should return axios error', async () => {
-        const coverByBookId = await flibustaApi.getCoverByBookId(Number.POSITIVE_INFINITY);
-
-        expect(axios.isAxiosError(coverByBookId)).to.be.equal(true);
+        await flibustaApi.getCoverByBookId(Number.POSITIVE_INFINITY).catch((error) => {
+          expect(axios.isAxiosError(error)).to.be.equal(true);
+        });
       });
     });
   });
