@@ -28,10 +28,11 @@ describe('GetCoverBookById', () => {
       expect(coverByBookId).to.satisfy((cover: File) => !isNil(cover));
     });
 
-    it('should return axios error', async () => {
-      const coverByBookId = await getCoverByBookIdApi.getCoverByBookId(Number.POSITIVE_INFINITY);
+    it('should return undefined error', async () => {
+      const coverByBookId = await getCoverByBookIdApi
+        .getCoverByBookId(Number.POSITIVE_INFINITY);
 
-      expect(axios.isAxiosError(coverByBookId)).to.be.equal(true);
+      expect(isNil(coverByBookId)).to.be.equal(true);
     });
   });
 });

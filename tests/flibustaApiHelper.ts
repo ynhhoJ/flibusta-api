@@ -59,13 +59,10 @@ describe('FlibustaAPIHelper', () => {
 
     it('should return axios error when flibusta html page is wrong', async () => {
       const url = 'booksed';
-      const flibustaHTMLPage = await flibustaApiHelper.getFlibustaHTMLPage(url);
 
-      if (isNil(flibustaHTMLPage)) {
-        return;
-      }
-
-      expect(axios.isAxiosError(flibustaHTMLPage)).to.be.equal(true);
+      await flibustaApiHelper.getFlibustaHTMLPage(url).catch((error) => {
+        expect(axios.isAxiosError(error)).to.be.equal(true);
+      });
     });
   });
 
