@@ -4,7 +4,6 @@
   "author": "ynhhoJ",
   "description": "Unofficial Flibusta API based on website search engine. If you like to read books - buy",
   "license": "MIT",
-  "packageManager": "yarn@3.2.0-rc.15",
   "main": "./build/src/index.js",
   "types": "./build/src/index.d.ts",
   "files": [
