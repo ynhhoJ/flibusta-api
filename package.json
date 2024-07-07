@@ -1,6 +1,6 @@
 {
   "name": "flibusta",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "author": "ynhhoJ",
   "description": "Unofficial Flibusta API based on website search engine. If you like to read books - buy",
   "license": "MIT",
@@ -29,7 +29,7 @@
     "example-search-genres-paginated": "ts-node ./examples/searchGenresPaginated.ts",
     "test": "npm run test:specific 'tests/**/*.ts'",
     "test:specific": "npx nyc mocha --timeout 15000 --node-flags '--unhandled-rejections=strict' -r ts-node/register",
-    "build": "webpack && yarn copy-types",
+    "build": "webpack && npm run copy-types",
     "copy-types": "copyfiles -u 1 types/**/* build/types"
   },
   "dependencies": {
