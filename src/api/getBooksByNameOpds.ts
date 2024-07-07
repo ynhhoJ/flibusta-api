@@ -94,7 +94,12 @@ class GetBooksByNameOpds extends FlibustaAPIHelper {
       return undefined;
     }
 
-    const slicedEntryToLimit = entry.slice(0, limit);
+    let slicedEntryToLimit = entry;
+
+    if (Array.isArray(slicedEntryToLimit)) {
+      slicedEntryToLimit = slicedEntryToLimit.slice(0, limit);
+    }
+
     const items = this.prepareResponseFromOpdsEntry(slicedEntryToLimit);
     const pages = this.getCurrentSearchOpdsPageInformation(feed);
     const totalCountItems = feed['os:totalResults'];
