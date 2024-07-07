@@ -49,7 +49,7 @@ export type OpdsSearchResult = {
     updated: string;
     icon: string;
     link: Array<OpdsLinkType>;
-    entry: Nullable<Array<OpdsEntry>>;
+    entry: Nullable<Array<OpdsEntry>> | Nullable<OpdsEntry>;
     'os:totalResults': number;
     'os:startIndex': number;
     'os:itemsPerPage': number;

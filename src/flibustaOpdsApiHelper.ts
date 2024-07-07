@@ -82,22 +82,28 @@ class FlibustaOpdsApiHelper {
     this.axiosInstance = axiosController;
   }
 
-  public prepareResponseFromOpdsEntry(entry: Array<OpdsEntry>): Array<SearchBooksByNameOpdsResult> {
-    return entry.map((item) => {
-      const {
-        author, link, title, updated, content, category,
-      } = item;
+  private prepareResponseFromOpdsObjectEntry(entry: OpdsEntry): SearchBooksByNameOpdsResult {
+    const {
+      author, link, title, updated, content, category,
+    } = entry;
 
-      return {
-        author: FlibustaOpdsApiHelper.getAuthorsFromOpdsEntry(author),
-        title,
-        updated,
-        categories: FlibustaOpdsApiHelper.getCategoriesFromOpdsEntry(category),
-        cover: FlibustaOpdsApiHelper.getCoverFromLink(link),
-        downloads: FlibustaOpdsApiHelper.getDownloadsItemList(link),
-        description: content['#text'],
-      };
-    });
+    return {
+      author: FlibustaOpdsApiHelper.getAuthorsFromOpdsEntry(author),
+      title,
+      updated,
+      categories: FlibustaOpdsApiHelper.getCategoriesFromOpdsEntry(category),
+      cover: FlibustaOpdsApiHelper.getCoverFromLink(link),
+      downloads: FlibustaOpdsApiHelper.getDownloadsItemList(link),
+      description: content['#text'],
+    };
+  }
+
+  public prepareResponseFromOpdsEntry(entry: Array<OpdsEntry> | OpdsEntry): Array<SearchBooksByNameOpdsResult> {
+    if (!Array.isArray(entry)) {
+      return [this.prepareResponseFromOpdsObjectEntry(entry)];
+    }
+
+    return entry.map((item) => this.prepareResponseFromOpdsObjectEntry(item));
   }
 
   public getTotalPagesCount(totalResults: number, itemsPerPage: number): number {
