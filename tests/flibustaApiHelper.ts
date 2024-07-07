@@ -39,7 +39,7 @@ describe('FlibustaAPIHelper', () => {
       expect(currentPageInformation).to.be.deep.equal({
         hasNextPage: true,
         hasPreviousPage: false,
-        totalPages: 5,
+        totalPages: 6,
       });
     });
   });
