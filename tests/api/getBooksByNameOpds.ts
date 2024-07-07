@@ -54,6 +54,38 @@ describe('getBooksByNameOpds', () => {
 
       expect(booksByNameFromOpds).to.be.equal(undefined);
     });
+
+    it('should be returned correct response when entry is an object', async () => {
+      const name = 'Почему я отвлекаюсь';
+
+      const booksByNameFromOpds = await getBooksByNameOpdsApi.getBooksByNameFromOpds(name);
+
+      if (isNil(booksByNameFromOpds)) {
+        return;
+      }
+
+      booksByNameFromOpds.forEach((booksItem) => {
+        expect(booksItem.author).to.satisfy(
+          (item: SearchBooksByNameOpdsResult['author']) => item.every(
+            (authorItem) => isString(authorItem.name) && isString(authorItem.uri),
+          ),
+        );
+        expect(booksItem.title).to.satisfy((item: SearchBooksByNameOpdsResult['title']) => isString(item));
+        expect(booksItem.updated).to.satisfy((item: SearchBooksByNameOpdsResult['updated']) => isString(item));
+        expect(booksItem.categories).to.satisfy((item: SearchBooksByNameOpdsResult['categories']) => item.every(
+          (categoriesItem) => isString(categoriesItem),
+        ));
+        expect(booksItem.cover).to.satisfy(
+          (item: SearchBooksByNameOpdsResult['cover']) => isNil(item) || isString(item),
+        );
+        expect(booksItem.downloads).to.satisfy(
+          (item: SearchBooksByNameOpdsResult['downloads']) => item.every(
+            (downloadItems) => isString(downloadItems.link) && isString(downloadItems.type),
+          ),
+        );
+        expect(booksItem.description).to.satisfy((item: SearchBooksByNameOpdsResult['description']) => isString(item));
+      });
+    });
   });
 
   describe('getBooksByNameFromOpdsPaginated()', () => {
